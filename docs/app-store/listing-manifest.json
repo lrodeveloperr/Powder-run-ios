@@ -1,0 +1,507 @@
+{
+  "schema_version": "1.0",
+  "mode": "draft",
+  "app": {
+    "platform": "ios",
+    "bundle_id": "com.goodusestudios.powderrun",
+    "version": "1.0",
+    "company_name": "WorksBien Studios Inc.",
+    "release_kind": "new",
+    "primary_category": "Business",
+    "secondary_category": "Productivity",
+    "category_verified_in_current_app_store_connect": false,
+    "secondary_category_verified_in_current_app_store_connect": false,
+    "game_subcategory_decision_verified": false,
+    "supported_devices": [
+      "iphone",
+      "ipad"
+    ],
+    "requires_account": false,
+    "requires_hardware": false
+  },
+  "source_control": {
+    "final_release_build_inspected": false,
+    "signed_archive_inspected": false,
+    "app_store_connect_inspected": false,
+    "public_policies_inspected": false,
+    "official_apple_sources_refreshed": true,
+    "fact_ledger_complete": false,
+    "facts_reconciled": false,
+    "final_build_identifier": "Source-only: version 1.0, build 1",
+    "evidence_index": "docs/app-store/powder-run-listing.md",
+    "final_build_reviewed_on": "2026-09-23",
+    "app_store_connect_snapshot_date": "2026-09-23",
+    "official_sources_reviewed_on": "2026-09-23",
+    "unresolved_conflicts": [
+      "Live public privacy/terms/support URLs and verified contact missing",
+      "App Store Connect products, seller, prices and territories unverified",
+      "Signed archive and native build not yet inspected"
+    ]
+  },
+  "aso_context": {
+    "primary_intent": "Record powder-coating job prep, shared batch-oven runs and cure readings",
+    "observed_search_phrases": [
+      "2026-09-23 App Store Powder Calculator description: powder line operator",
+      "2026-09-23 App Store Electron_App description: professional powder coating"
+    ],
+    "restricted_terms": [
+      "Interpon",
+      "Electron_App",
+      "TIGER Drylac"
+    ]
+  },
+  "icon": {
+    "concept": "Original teal Powder Run emblem in app asset catalog",
+    "artifact_path": "",
+    "small_size_checked": false,
+    "relevant_search_grid_checked": false,
+    "build_asset_matches": false
+  },
+  "locales": [
+    {
+      "locale": "en-US",
+      "name": "Powder Run: Coating Log",
+      "subtitle": "Batch Oven & Cure Records",
+      "promotional_text": "",
+      "promotion_owner": "",
+      "promotion_review_due_on": "",
+      "description": "Powder Run gives powder-coating shops a clear record of each job from intake to handoff.\n\nTrack item groups and preparation checks, set up first-pass or rework runs, and place coated runs in a shared oven load. Record actual part-metal temperatures and dwell against the reviewed powder instructions. Then inspect, allocate accepted, rework or scrapped quantities, and close the job with its numbers reconciled.\n\n• Keep batch-oven runs and their reading history together.\n• Use your own setup presets while confirming each new powder lot and recipe source.\n• Export a job PDF, job and oven-run CSV files, or a full JSON backup.\n• See an optional oven Live Activity; return to the app to enter readings and make decisions.\n\nFive first-pass runs are free. Powder Run Pro is a monthly or yearly auto-renewable subscription that lets you create new jobs after the free limit. Jobs already entered, rework, history and exports remain accessible without an active subscription. The total price and renewal period for your region appear before purchase in the App Store flow.\n\nPowder Run stores shop records on your device. Sharing or backing up a file is your choice. It is a recordkeeping aid, not a temperature sensor or an automatic certification of cure. Follow the current powder manufacturer's instructions and your shop's safety procedures.",
+      "keywords": [
+        "pretreatment",
+        "part metal",
+        "rework",
+        "inspection",
+        "job tracker",
+        "traceability",
+        "shop floor",
+        "quality control"
+      ],
+      "support_url": "",
+      "privacy_url": "",
+      "marketing_url": "",
+      "whats_new": "",
+      "native_language_reviewed": false,
+      "ui_language_disclosed_accurately": true,
+      "locale_available_in_app_store_connect": false,
+      "no_stray_language_confirmed": false,
+      "claims_supported": false,
+      "paid_features_disclosed_if_needed": true
+    }
+  ],
+  "screenshot_count_override_reason": "",
+  "required_screenshot_sets": [
+    {
+      "locale": "en-US",
+      "device": "iphone",
+      "expected_count": 3,
+      "accepted_dimensions": [
+        [
+          1320,
+          2868
+        ]
+      ],
+      "dimension_source_url": "https://developer.apple.com/help/app-store-connect/reference/app-information/screenshot-specifications/"
+    },
+    {
+      "locale": "en-US",
+      "device": "ipad",
+      "expected_count": 3,
+      "accepted_dimensions": [
+        [
+          2064,
+          2752
+        ]
+      ],
+      "dimension_source_url": "https://developer.apple.com/help/app-store-connect/reference/app-information/screenshot-specifications/"
+    }
+  ],
+  "screenshots": [
+    {
+      "locale": "en-US",
+      "device": "iphone",
+      "position": 1,
+      "story_role": "outcome",
+      "caption": "Know what every job needs next",
+      "artifact_path": "",
+      "authentic_ui": false,
+      "dimensions_verified_against_current_apple_spec": false,
+      "display_appearance_checked": false,
+      "sample_data_consistent": false,
+      "localized_copy_checked": false,
+      "claims_supported": false,
+      "paid_feature_disclosed_if_needed": false,
+      "no_other_platform_imagery": true,
+      "search_result_legibility_checked": false
+    },
+    {
+      "locale": "en-US",
+      "device": "iphone",
+      "position": 2,
+      "story_role": "path",
+      "caption": "Record prep and oven readings",
+      "artifact_path": "",
+      "authentic_ui": false,
+      "dimensions_verified_against_current_apple_spec": false,
+      "display_appearance_checked": false,
+      "sample_data_consistent": false,
+      "localized_copy_checked": false,
+      "claims_supported": false,
+      "paid_feature_disclosed_if_needed": false,
+      "no_other_platform_imagery": true,
+      "search_result_legibility_checked": false
+    },
+    {
+      "locale": "en-US",
+      "device": "iphone",
+      "position": 3,
+      "story_role": "proof",
+      "caption": "Close the run with a clear record",
+      "artifact_path": "",
+      "authentic_ui": false,
+      "dimensions_verified_against_current_apple_spec": false,
+      "display_appearance_checked": false,
+      "sample_data_consistent": false,
+      "localized_copy_checked": false,
+      "claims_supported": false,
+      "paid_feature_disclosed_if_needed": false,
+      "no_other_platform_imagery": true,
+      "search_result_legibility_checked": false
+    },
+    {
+      "locale": "en-US",
+      "device": "ipad",
+      "position": 1,
+      "story_role": "outcome",
+      "caption": "Know what every job needs next",
+      "artifact_path": "",
+      "authentic_ui": false,
+      "dimensions_verified_against_current_apple_spec": false,
+      "display_appearance_checked": false,
+      "sample_data_consistent": false,
+      "localized_copy_checked": false,
+      "claims_supported": false,
+      "paid_feature_disclosed_if_needed": false,
+      "no_other_platform_imagery": true,
+      "search_result_legibility_checked": false
+    },
+    {
+      "locale": "en-US",
+      "device": "ipad",
+      "position": 2,
+      "story_role": "path",
+      "caption": "Record prep and oven readings",
+      "artifact_path": "",
+      "authentic_ui": false,
+      "dimensions_verified_against_current_apple_spec": false,
+      "display_appearance_checked": false,
+      "sample_data_consistent": false,
+      "localized_copy_checked": false,
+      "claims_supported": false,
+      "paid_feature_disclosed_if_needed": false,
+      "no_other_platform_imagery": true,
+      "search_result_legibility_checked": false
+    },
+    {
+      "locale": "en-US",
+      "device": "ipad",
+      "position": 3,
+      "story_role": "proof",
+      "caption": "Close the run with a clear record",
+      "artifact_path": "",
+      "authentic_ui": false,
+      "dimensions_verified_against_current_apple_spec": false,
+      "display_appearance_checked": false,
+      "sample_data_consistent": false,
+      "localized_copy_checked": false,
+      "claims_supported": false,
+      "paid_feature_disclosed_if_needed": false,
+      "no_other_platform_imagery": true,
+      "search_result_legibility_checked": false
+    }
+  ],
+  "visual_disclosure": {
+    "page_clarity_reviewed": false,
+    "free_or_included_value": "Five first-pass runs, existing jobs, rework, history and export",
+    "paid_value_and_location": "Pro unlocks creating new jobs after five first-pass runs; Settings and new-job gate"
+  },
+  "privacy": {
+    "policy_url": "",
+    "data_inventory_complete": false,
+    "third_party_sdks_included": false,
+    "app_privacy_answers_match_final_build": false,
+    "privacy_policy_matches_final_build": false,
+    "privacy_manifest_checked_in_final_archive": false,
+    "required_reason_apis_checked": false,
+    "sdk_signatures_checked": false,
+    "tracking_declaration_accurate": false,
+    "data_deletion_obligations_resolved": false
+  },
+  "monetization": {
+    "models": [
+      "auto_renewable_subscription"
+    ],
+    "products": [
+      {
+        "product_id": "com.goodusestudios.powderrun.pro.monthly",
+        "type": "auto_renewable_subscription",
+        "duration": "1 month",
+        "group_id": "Unverified proposed Powder Run Pro group",
+        "app_store_connect_state_verified": false,
+        "localized_metadata_complete": false,
+        "price_loaded_from_storekit": false,
+        "review_screenshot_prepared": false,
+        "visible_or_review_path_documented": true
+      },
+      {
+        "product_id": "com.goodusestudios.powderrun.pro.yearly",
+        "type": "auto_renewable_subscription",
+        "duration": "1 year",
+        "group_id": "Unverified proposed Powder Run Pro group",
+        "app_store_connect_state_verified": false,
+        "localized_metadata_complete": false,
+        "price_loaded_from_storekit": false,
+        "review_screenshot_prepared": false,
+        "visible_or_review_path_documented": true
+      }
+    ],
+    "public_price_and_offer_context_reviewed": false,
+    "privacy_url": "",
+    "terms_url": "",
+    "ongoing_value_confirmed": false,
+    "restore_purchases_available": false,
+    "manage_subscription_available": false
+  },
+  "review": {
+    "notes": "No login, backend, powder-coating equipment or temperature sensor is required. Open Jobs and create a fictional customer job, item and prep record; make a first-pass run and enter the powder lot and manufacturer-source values. In Oven, add coated runs to a batch and record manually observed part-metal readings at the qualifying dwell points; then unload, inspect and allocate accepted/rework/scrap quantities. In History, share a job PDF, CSV or JSON backup. The Lock Screen Live Activity, if permitted, displays a local reminder and opens the associated batch; it does not establish cure. Five first-pass runs are free; create new jobs after the limit using a verified monthly or yearly StoreKit subscription. Existing jobs, rework, history, exports and Restore Purchases remain available. The paywall is accessible from Settings or the new-job gate. No demo account is needed. **Complete reviewer name, verified email and phone, exact product status, tested device/OS and any required sandbox steps before submission.**",
+    "contact_complete": false,
+    "demo_access_complete": false,
+    "navigation_path_documented": true,
+    "non_obvious_features_explained": true,
+    "permission_steps_explained": true
+  },
+  "guideline_review": {
+    "source_url": "https://developer.apple.com/app-store/review/guidelines/",
+    "reviewed_on": "2026-09-23",
+    "applicable_ids": [
+      "1.4",
+      "1.5",
+      "1.6",
+      "2.1",
+      "2.3",
+      "2.4",
+      "3.1.1",
+      "3.1.2",
+      "4.1",
+      "4.2",
+      "5.1.1",
+      "5.2"
+    ],
+    "family_rationale": {
+      "1": "Manual oven/cure decisions can affect physical safety and require support",
+      "2": "Build completeness, truthful metadata and iPad compatibility",
+      "3": "StoreKit auto-renewable subscriptions and five-run boundary",
+      "4": "Original native functionality, no web wrapper",
+      "5": "Local records, optional exports, privacy and licensed assets"
+    },
+    "dispositions": [
+      {
+        "id": "1.4",
+        "status": "blocked",
+        "evidence": "Signed archive, public URL, App Store Connect or device test still required; see powder-run-listing.md"
+      },
+      {
+        "id": "1.5",
+        "status": "blocked",
+        "evidence": "Signed archive, public URL, App Store Connect or device test still required; see powder-run-listing.md"
+      },
+      {
+        "id": "1.6",
+        "status": "blocked",
+        "evidence": "Signed archive, public URL, App Store Connect or device test still required; see powder-run-listing.md"
+      },
+      {
+        "id": "2.1",
+        "status": "blocked",
+        "evidence": "Signed archive, public URL, App Store Connect or device test still required; see powder-run-listing.md"
+      },
+      {
+        "id": "2.3",
+        "status": "blocked",
+        "evidence": "Signed archive, public URL, App Store Connect or device test still required; see powder-run-listing.md"
+      },
+      {
+        "id": "2.4",
+        "status": "blocked",
+        "evidence": "Signed archive, public URL, App Store Connect or device test still required; see powder-run-listing.md"
+      },
+      {
+        "id": "3.1.1",
+        "status": "blocked",
+        "evidence": "Signed archive, public URL, App Store Connect or device test still required; see powder-run-listing.md"
+      },
+      {
+        "id": "3.1.2",
+        "status": "blocked",
+        "evidence": "Signed archive, public URL, App Store Connect or device test still required; see powder-run-listing.md"
+      },
+      {
+        "id": "4.1",
+        "status": "blocked",
+        "evidence": "Signed archive, public URL, App Store Connect or device test still required; see powder-run-listing.md"
+      },
+      {
+        "id": "4.2",
+        "status": "blocked",
+        "evidence": "Signed archive, public URL, App Store Connect or device test still required; see powder-run-listing.md"
+      },
+      {
+        "id": "5.1.1",
+        "status": "blocked",
+        "evidence": "Signed archive, public URL, App Store Connect or device test still required; see powder-run-listing.md"
+      },
+      {
+        "id": "5.2",
+        "status": "blocked",
+        "evidence": "Signed archive, public URL, App Store Connect or device test still required; see powder-run-listing.md"
+      }
+    ]
+  },
+  "compliance_controls": {
+    "app_stability": {
+      "status": "blocked",
+      "evidence": "Replace with inspectable evidence before changing status"
+    },
+    "metadata_build_parity": {
+      "status": "blocked",
+      "evidence": "Replace with inspectable evidence before changing status"
+    },
+    "metadata_complete_accurate": {
+      "status": "blocked",
+      "evidence": "Replace with inspectable evidence before changing status"
+    },
+    "screenshots_authentic_current": {
+      "status": "blocked",
+      "evidence": "Replace with inspectable evidence before changing status"
+    },
+    "reviewer_access": {
+      "status": "blocked",
+      "evidence": "Replace with inspectable evidence before changing status"
+    },
+    "legal_urls_live": {
+      "status": "blocked",
+      "evidence": "Replace with inspectable evidence before changing status"
+    },
+    "privacy_policy_matches_build": {
+      "status": "blocked",
+      "evidence": "Replace with inspectable evidence before changing status"
+    },
+    "app_privacy_answers_match_build_and_sdks": {
+      "status": "blocked",
+      "evidence": "Replace with inspectable evidence before changing status"
+    },
+    "privacy_manifest_archive_checked": {
+      "status": "blocked",
+      "evidence": "Replace with inspectable evidence before changing status"
+    },
+    "required_reason_apis_and_sdk_signatures_checked": {
+      "status": "blocked",
+      "evidence": "Replace with inspectable evidence before changing status"
+    },
+    "permissions_just_in_time": {
+      "status": "blocked",
+      "evidence": "Replace with inspectable evidence before changing status"
+    },
+    "age_rating_accurate": {
+      "status": "blocked",
+      "evidence": "Replace with inspectable evidence before changing status"
+    },
+    "content_rights_confirmed": {
+      "status": "blocked",
+      "evidence": "Replace with inspectable evidence before changing status"
+    },
+    "export_compliance_resolved": {
+      "status": "blocked",
+      "evidence": "Replace with inspectable evidence before changing status"
+    },
+    "no_private_apis_hidden_features_placeholders": {
+      "status": "blocked",
+      "evidence": "Replace with inspectable evidence before changing status"
+    },
+    "accessibility_device_locale_rtl_checked": {
+      "status": "blocked",
+      "evidence": "Replace with inspectable evidence before changing status"
+    },
+    "regional_availability_reviewed": {
+      "status": "blocked",
+      "evidence": "Replace with inspectable evidence before changing status"
+    },
+    "contact_information_current": {
+      "status": "blocked",
+      "evidence": "Replace with inspectable evidence before changing status"
+    },
+    "applicable_guidelines_reviewed": {
+      "status": "blocked",
+      "evidence": "Replace with inspectable evidence before changing status"
+    }
+  },
+  "aso_controls": {
+    "search_intent_researched": {
+      "status": "blocked",
+      "evidence": "Replace with inspectable evidence before changing status"
+    },
+    "name_subtitle_fit_confirmed": {
+      "status": "blocked",
+      "evidence": "Replace with inspectable evidence before changing status"
+    },
+    "keyword_field_relevant_deduplicated": {
+      "status": "blocked",
+      "evidence": "Replace with inspectable evidence before changing status"
+    },
+    "competitor_trademark_screened": {
+      "status": "blocked",
+      "evidence": "Replace with inspectable evidence before changing status"
+    },
+    "category_fit_confirmed": {
+      "status": "blocked",
+      "evidence": "Replace with inspectable evidence before changing status"
+    },
+    "description_explains_workflow": {
+      "status": "blocked",
+      "evidence": "Replace with inspectable evidence before changing status"
+    },
+    "launch_visual_story": {
+      "status": "blocked",
+      "evidence": "Replace with inspectable evidence before changing status"
+    },
+    "icon_small_size_checked": {
+      "status": "blocked",
+      "evidence": "Replace with inspectable evidence before changing status"
+    },
+    "native_locale_adaptation": {
+      "status": "blocked",
+      "evidence": "Replace with inspectable evidence before changing status"
+    },
+    "search_to_product_page_alignment": {
+      "status": "blocked",
+      "evidence": "Replace with inspectable evidence before changing status"
+    },
+    "claims_supported": {
+      "status": "blocked",
+      "evidence": "Replace with inspectable evidence before changing status"
+    },
+    "post_launch_measurement_ready": {
+      "status": "blocked",
+      "evidence": "Replace with inspectable evidence before changing status"
+    }
+  },
+  "authorization": {
+    "live_submission_authorized": false,
+    "authorization_evidence": ""
+  },
+  "human_review": {
+    "attested": false,
+    "reviewer": "",
+    "evidence": "",
+    "reviewed_on": "2026-09-24"
+  }
+}
