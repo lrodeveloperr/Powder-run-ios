@@ -1,0 +1,116 @@
+name: Shell
+options:
+  bundleIdPrefix: com.goodusestudios
+  deploymentTarget:
+    iOS: "18.0"
+  xcodeVersion: "16.0"
+  createIntermediateGroups: true
+packages:
+  PowderCoatingRunEngine:
+    path: Packages/PowderCoatingRunEngine
+  LiveActivityDynamicIslandKit:
+    url: https://github.com/mikonyaa/LiveActivityDynamicIslandKit.git
+    from: 0.1.0
+  GoogleMobileAds:
+    url: https://github.com/googleads/swift-package-manager-google-mobile-ads.git
+    from: 13.0.0
+targetTemplates:
+  ShellApplication:
+    type: application
+    platform: iOS
+    sources:
+      - path: Shell
+        excludes:
+          - Resources/Info.plist
+          - Resources/Info-Ads.plist
+    settings:
+      base:
+        PRODUCT_NAME: PowderRun
+        MARKETING_VERSION: 1.0
+        CURRENT_PROJECT_VERSION: 1
+        SWIFT_VERSION: 6.0
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        CODE_SIGN_STYLE: Automatic
+        TARGETED_DEVICE_FAMILY: "1,2"
+targets:
+  # Default target. It neither links nor initializes any advertising SDK and its
+  # Info.plist contains no GAD or SKAdNetwork keys.
+  Shell:
+    templates: [ShellApplication]
+    dependencies:
+      - package: PowderCoatingRunEngine
+        product: PowderCoatingRunEngine
+      - package: LiveActivityDynamicIslandKit
+        product: LiveActivityKit
+      - target: PowderRunWidgets
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.goodusestudios.powderrun
+        INFOPLIST_FILE: Shell/Resources/Info.plist
+  # Select this target only for a reviewed ad-supported derived app.
+  ShellAds:
+    templates: [ShellApplication]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.goodusestudios.powderrun.ads
+        INFOPLIST_FILE: Shell/Resources/Info-Ads.plist
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: "$(inherited) ADS_ENABLED"
+    dependencies:
+      - package: GoogleMobileAds
+        product: GoogleMobileAds
+      - package: PowderCoatingRunEngine
+        product: PowderCoatingRunEngine
+      - package: LiveActivityDynamicIslandKit
+        product: LiveActivityKit
+      - target: PowderRunWidgets
+  PowderRunWidgets:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: PowderRunWidgets
+      - path: Shell/Shared
+    dependencies:
+      - package: LiveActivityDynamicIslandKit
+        product: LiveActivityKit
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.goodusestudios.powderrun.widgets
+        PRODUCT_NAME: PowderRunWidgets
+        INFOPLIST_FILE: PowderRunWidgets/Info.plist
+        APPLICATION_EXTENSION_API_ONLY: YES
+        SKIP_INSTALL: YES
+  ShellTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - ShellTests
+    dependencies:
+      - target: Shell
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+  ShellUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - ShellUITests
+    dependencies:
+      - target: Shell
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+schemes:
+  Shell:
+    build:
+      targets:
+        Shell: all
+        ShellTests: [test]
+        ShellUITests: [test]
+    test:
+      targets:
+        - ShellTests
+        - ShellUITests
+  ShellAds:
+    build:
+      targets:
+        ShellAds: all

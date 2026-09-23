@@ -1,0 +1,8 @@
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+DerivedData/
+.build/
+build/
+*.ipa
+*.xcarchive
+fastlane/report.xml

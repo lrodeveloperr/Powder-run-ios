@@ -1,0 +1,1076 @@
+{
+  "version": "0.1.5-provisional",
+  "gate_status": "BLOCKED",
+  "support_matrix": {
+    "platforms": [
+      "iOS 16+",
+      "macOS 13+ diagnostic"
+    ],
+    "locale": [
+      "en-US provisional"
+    ],
+    "roles": [
+      "operator",
+      "floor lead"
+    ],
+    "inputs": [
+      "manual job and item",
+      "manufacturer recipe",
+      "manual oven and part readings",
+      "JPEG",
+      "shop-authored reusable part and cure setup; actual lot and source confirmation per run"
+    ],
+    "entitlement": [
+      "five first-pass runs free; rework does not count; creating a new job after five first-pass runs needs an active subscription",
+      "existing jobs remain completable, correctable and exportable after quota or expiry",
+      "StoreKit 2 adapter authored; matching App Store Connect products and native purchase UI/test missing",
+      "US target $2.99 monthly / $24.99 yearly; real local prices come from Product.displayPrice"
+    ]
+  },
+  "predicates": {
+    "qualifying_part": "partMetal>=targetMetalCelsius and <=maximumMetalCelsius if supplied, timestamp equal to action time",
+    "complete_dwell": "end-start>=dwellSeconds and operatorConfirmed with qualifying readings at both ends",
+    "close": "for each item released+scrapped=intake, pending rework=0, unprocessed=0"
+  },
+  "requirements": [
+    {
+      "id": "REQ-DATA-001",
+      "scope": "LAUNCH",
+      "status": "PROVISIONAL",
+      "owner": "WorksBien",
+      "normative_text": "Job item identity, substrate, finish, photos and positive quantity are recorded.",
+      "evidence": [
+        "WorksBien-iOS-Operator-Workbench-Build-Candidates-2026-09-23.md"
+      ],
+      "risk": "medium",
+      "acceptance_test_ids": [
+        "TEST-testMixedJobBatchReworkAndBackup",
+        "TEST-testThousandSyntheticCustomerIntakeAndCorrectionScenarios",
+        "TEST-testCorrectionsChangeAuthoritativeRecordsAndPreserveAudit"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-DATA-002",
+      "scope": "LAUNCH",
+      "status": "PROVISIONAL",
+      "owner": "WorksBien",
+      "normative_text": "A run snapshots powder product, lot and source procedure.",
+      "evidence": [
+        "WorksBien-iOS-Operator-Workbench-Build-Candidates-2026-09-23.md"
+      ],
+      "risk": "medium",
+      "acceptance_test_ids": [
+        "TEST-testMixedJobBatchReworkAndBackup",
+        "TEST-testThousandSyntheticCustomerIntakeAndCorrectionScenarios"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-PREP-001",
+      "scope": "LAUNCH",
+      "status": "PROVISIONAL",
+      "owner": "WorksBien",
+      "normative_text": "Configured preparation checkpoints must be recorded for the same item before coating.",
+      "evidence": [
+        "WorksBien-iOS-Operator-Workbench-Build-Candidates-2026-09-23.md"
+      ],
+      "risk": "medium",
+      "acceptance_test_ids": [
+        "TEST-testConfiguredCheckpointsAndOverTemperatureHold"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-BATCH-001",
+      "scope": "LAUNCH",
+      "status": "PROVISIONAL",
+      "owner": "WorksBien",
+      "normative_text": "A named oven batch may link runs from multiple jobs.",
+      "evidence": [
+        "WorksBien-iOS-Operator-Workbench-Build-Candidates-2026-09-23.md"
+      ],
+      "risk": "medium",
+      "acceptance_test_ids": [
+        "TEST-testMixedJobBatchReworkAndBackup"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-BATCH-002",
+      "scope": "LAUNCH",
+      "status": "PROVISIONAL",
+      "owner": "WorksBien",
+      "normative_text": "A run belongs to at most one batch.",
+      "evidence": [
+        "WorksBien-iOS-Operator-Workbench-Build-Candidates-2026-09-23.md"
+      ],
+      "risk": "medium",
+      "acceptance_test_ids": [
+        "TEST-testConfiguredCheckpointsAndOverTemperatureHold"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-TEMP-001",
+      "scope": "LAUNCH",
+      "status": "PROVISIONAL",
+      "owner": "WorksBien",
+      "normative_text": "Oven air cannot qualify a part for cure.",
+      "evidence": [
+        "WorksBien-iOS-Operator-Workbench-Build-Candidates-2026-09-23.md"
+      ],
+      "risk": "high",
+      "acceptance_test_ids": [
+        "TEST-testOvenAirCannotStartCureAndTimeCannotEndEarly"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-TEMP-002",
+      "scope": "LAUNCH",
+      "status": "PROVISIONAL",
+      "owner": "WorksBien",
+      "normative_text": "Start and end of dwell each require a qualifying part metal reading at the action time.",
+      "evidence": [
+        "WorksBien-iOS-Operator-Workbench-Build-Candidates-2026-09-23.md"
+      ],
+      "risk": "high",
+      "acceptance_test_ids": [
+        "TEST-testOvenAirCannotStartCureAndTimeCannotEndEarly",
+        "TEST-testTenThousandAcceleratedLifecyclesAcrossThousandYears"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-TEMP-003",
+      "scope": "LAUNCH",
+      "status": "PROVISIONAL",
+      "owner": "WorksBien",
+      "normative_text": "Dwell may finish only after the recipe duration and operator attestation.",
+      "evidence": [
+        "WorksBien-iOS-Operator-Workbench-Build-Candidates-2026-09-23.md"
+      ],
+      "risk": "high",
+      "acceptance_test_ids": [
+        "TEST-testOvenAirCannotStartCureAndTimeCannotEndEarly",
+        "TEST-testTenThousandAcceleratedLifecyclesAcrossThousandYears"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-TEMP-004",
+      "scope": "LAUNCH",
+      "status": "PROVISIONAL",
+      "owner": "WorksBien",
+      "normative_text": "A below-target part reading resets active dwell.",
+      "evidence": [
+        "WorksBien-iOS-Operator-Workbench-Build-Candidates-2026-09-23.md"
+      ],
+      "risk": "high",
+      "acceptance_test_ids": [
+        "TEST-testBelowTargetReadingResetsDwellAndCorrectionHoldsRelease"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-TEMP-005",
+      "scope": "LAUNCH",
+      "status": "PROVISIONAL",
+      "owner": "WorksBien",
+      "normative_text": "An above-maximum reading places the run on hold.",
+      "evidence": [
+        "WorksBien-iOS-Operator-Workbench-Build-Candidates-2026-09-23.md"
+      ],
+      "risk": "high",
+      "acceptance_test_ids": [
+        "TEST-testConfiguredCheckpointsAndOverTemperatureHold"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-QC-001",
+      "scope": "LAUNCH",
+      "status": "PROVISIONAL",
+      "owner": "WorksBien",
+      "normative_text": "A batch unload precedes inspection.",
+      "evidence": [
+        "WorksBien-iOS-Operator-Workbench-Build-Candidates-2026-09-23.md"
+      ],
+      "risk": "high",
+      "acceptance_test_ids": [
+        "TEST-testMixedJobBatchReworkAndBackup",
+        "TEST-testNoBackdatedUnloadInspectionOrHandoff"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-QC-002",
+      "scope": "LAUNCH",
+      "status": "PROVISIONAL",
+      "owner": "WorksBien",
+      "normative_text": "Pass, rework and scrap counts total the run quantity.",
+      "evidence": [
+        "WorksBien-iOS-Operator-Workbench-Build-Candidates-2026-09-23.md"
+      ],
+      "risk": "high",
+      "acceptance_test_ids": [
+        "TEST-testMixedJobBatchReworkAndBackup"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-QC-003",
+      "scope": "LAUNCH",
+      "status": "PROVISIONAL",
+      "owner": "WorksBien",
+      "normative_text": "A held run releases zero parts.",
+      "evidence": [
+        "WorksBien-iOS-Operator-Workbench-Build-Candidates-2026-09-23.md"
+      ],
+      "risk": "high",
+      "acceptance_test_ids": [
+        "TEST-testBelowTargetReadingResetsDwellAndCorrectionHoldsRelease",
+        "TEST-testMistakenCorrectionCanBeReviewedAndResolved",
+        "TEST-testAcceptedRunCanResolveMistakenCorrectionWithoutRework"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-QC-004",
+      "scope": "LAUNCH",
+      "status": "PROVISIONAL",
+      "owner": "WorksBien",
+      "normative_text": "A rework run cites a parent and stays within its rework count.",
+      "evidence": [
+        "WorksBien-iOS-Operator-Workbench-Build-Candidates-2026-09-23.md"
+      ],
+      "risk": "high",
+      "acceptance_test_ids": [
+        "TEST-testMixedJobBatchReworkAndBackup"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-CLOSE-001",
+      "scope": "LAUNCH",
+      "status": "PROVISIONAL",
+      "owner": "WorksBien",
+      "normative_text": "A job closes only when all item quantities reconcile.",
+      "evidence": [
+        "WorksBien-iOS-Operator-Workbench-Build-Candidates-2026-09-23.md"
+      ],
+      "risk": "high",
+      "acceptance_test_ids": [
+        "TEST-testMixedJobBatchReworkAndBackup",
+        "TEST-testNoBackdatedUnloadInspectionOrHandoff"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-AUDIT-001",
+      "scope": "LAUNCH",
+      "status": "PROVISIONAL",
+      "owner": "WorksBien",
+      "normative_text": "An observation correction retains original data with operator and reason.",
+      "evidence": [
+        "WorksBien-iOS-Operator-Workbench-Build-Candidates-2026-09-23.md"
+      ],
+      "risk": "medium",
+      "acceptance_test_ids": [
+        "TEST-testBelowTargetReadingResetsDwellAndCorrectionHoldsRelease",
+        "TEST-testCorrectionsChangeAuthoritativeRecordsAndPreserveAudit",
+        "TEST-testMistakenCorrectionCanBeReviewedAndResolved"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-SYNC-001",
+      "scope": "LAUNCH",
+      "status": "PROVISIONAL",
+      "owner": "WorksBien",
+      "normative_text": "Stale run revisions do not mutate state.",
+      "evidence": [
+        "WorksBien-iOS-Operator-Workbench-Build-Candidates-2026-09-23.md"
+      ],
+      "risk": "medium",
+      "acceptance_test_ids": [
+        "TEST-testInvalidRevisionAndBadBackup"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-STORE-001",
+      "scope": "LAUNCH",
+      "status": "PROVISIONAL",
+      "owner": "WorksBien",
+      "normative_text": "An invalid backup cannot replace a valid local ledger.",
+      "evidence": [
+        "WorksBien-iOS-Operator-Workbench-Build-Candidates-2026-09-23.md"
+      ],
+      "risk": "high",
+      "acceptance_test_ids": [
+        "TEST-testInvalidRevisionAndBadBackup",
+        "TEST-testThousandSyntheticCustomerIntakeAndCorrectionScenarios",
+        "TEST-testForgedAcceptedArchiveWithoutMeasurementsIsRejected",
+        "TEST-testTwoRepositoriesDoNotOverwriteEachOther"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-EXPORT-001",
+      "scope": "LAUNCH",
+      "status": "PROVISIONAL",
+      "owner": "WorksBien",
+      "normative_text": "CSV formula prefixes are escaped.",
+      "evidence": [
+        "WorksBien-iOS-Operator-Workbench-Build-Candidates-2026-09-23.md"
+      ],
+      "risk": "medium",
+      "acceptance_test_ids": [
+        "TEST-testCSVQuotesPotentialFormulas"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-PHOTO-001",
+      "scope": "LAUNCH",
+      "status": "PROVISIONAL",
+      "owner": "WorksBien",
+      "normative_text": "An item can retain a local JPEG in its backup.",
+      "evidence": [
+        "WorksBien-iOS-Operator-Workbench-Build-Candidates-2026-09-23.md"
+      ],
+      "risk": "medium",
+      "acceptance_test_ids": [
+        "TEST-manual-photo-roundtrip",
+        "TEST-testPhotoEvidenceAndTruncation"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-REPORT-001",
+      "scope": "LAUNCH",
+      "status": "PROVISIONAL",
+      "owner": "WorksBien",
+      "normative_text": "An iOS PDF includes batch and item evidence.",
+      "evidence": [
+        "WorksBien-iOS-Operator-Workbench-Build-Candidates-2026-09-23.md"
+      ],
+      "risk": "medium",
+      "acceptance_test_ids": [
+        "TEST-manual-ios-pdf"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-HANDOFF-001",
+      "scope": "LAUNCH",
+      "status": "PROVISIONAL",
+      "owner": "WorksBien",
+      "normative_text": "A job close records pickup, delivery or courier handoff.",
+      "evidence": [
+        "WorksBien-iOS-Operator-Workbench-Build-Candidates-2026-09-23.md"
+      ],
+      "risk": "medium",
+      "acceptance_test_ids": [
+        "TEST-testMixedJobBatchReworkAndBackup"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-HANDOFF-002",
+      "scope": "LAUNCH",
+      "status": "PROVISIONAL",
+      "owner": "WorksBien",
+      "normative_text": "A correction after handoff preserves delivered counts and handoff, records any new quality alert and follow-up, and does not route delivered parts into a rework run.",
+      "evidence": [
+        "code-integrity-report.md"
+      ],
+      "risk": "high",
+      "acceptance_test_ids": [
+        "TEST-testClosedJobCorrectionRecordsAlertWithoutReopeningDelivery"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-TEMP-006",
+      "scope": "LAUNCH",
+      "status": "PROVISIONAL",
+      "owner": "WorksBien",
+      "normative_text": "This thermal oven engine rejects a target metal temperature below 120 °C or above 300 °C and revalidates edited recipe values at run creation.",
+      "evidence": [
+        "https://www.powdercoating.org/page/Innovations-LowBake"
+      ],
+      "risk": "high",
+      "acceptance_test_ids": [
+        "TEST-testThermalRecipeRejectsImplausibleLowEntry"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-PRESET-001",
+      "scope": "LAUNCH",
+      "status": "PROVISIONAL",
+      "owner": "WorksBien",
+      "normative_text": "A saved shop preset contains a reviewed cure recipe and reusable part and process setup, with no lot, job quantity, run operator or recorded outcome.",
+      "evidence": [
+        "User safe-preset request 2026-09-23",
+        "README.md#shop-owned-presets"
+      ],
+      "risk": "medium",
+      "acceptance_test_ids": [
+        "TEST-testShopPresetNeedsFreshRunFactsAndKeepsHistoricalRecipeSnapshot"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-PRESET-002",
+      "scope": "LAUNCH",
+      "status": "PROVISIONAL",
+      "owner": "WorksBien",
+      "normative_text": "Updating a shop preset requires the next revision and does not change an existing run recipe snapshot.",
+      "evidence": [
+        "User safe-preset request 2026-09-23",
+        "README.md#shop-owned-presets"
+      ],
+      "risk": "medium",
+      "acceptance_test_ids": [
+        "TEST-testShopPresetNeedsFreshRunFactsAndKeepsHistoricalRecipeSnapshot"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-PRESET-003",
+      "scope": "LAUNCH",
+      "status": "PROVISIONAL",
+      "owner": "WorksBien",
+      "normative_text": "A run created from a preset requires a matching item and completed item-specific preparation checks.",
+      "evidence": [
+        "User safe-preset request 2026-09-23",
+        "README.md#shop-owned-presets"
+      ],
+      "risk": "high",
+      "acceptance_test_ids": [
+        "TEST-testShopPresetNeedsFreshRunFactsAndKeepsHistoricalRecipeSnapshot"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-PRESET-004",
+      "scope": "LAUNCH",
+      "status": "PROVISIONAL",
+      "owner": "WorksBien",
+      "normative_text": "Each preset-created run requires its actual lot, quantity, booth, operator and explicit current-source confirmation.",
+      "evidence": [
+        "User safe-preset request 2026-09-23",
+        "README.md#shop-owned-presets"
+      ],
+      "risk": "high",
+      "acceptance_test_ids": [
+        "TEST-testShopPresetNeedsFreshRunFactsAndKeepsHistoricalRecipeSnapshot"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-PRESET-005",
+      "scope": "LAUNCH",
+      "status": "PROVISIONAL",
+      "owner": "WorksBien",
+      "normative_text": "A schema-1 archive without the additive presets field decodes as an empty preset collection.",
+      "evidence": [
+        "User safe-preset request 2026-09-23",
+        "README.md#shop-owned-presets"
+      ],
+      "risk": "medium",
+      "acceptance_test_ids": [
+        "TEST-testOldLedgerArchiveWithoutPresetsStillDecodes"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-ACCESS-001",
+      "scope": "LAUNCH",
+      "status": "PROVISIONAL",
+      "owner": "WorksBien",
+      "normative_text": "When a free ledger contains fewer than five first-pass runs, the repository permits a new job.",
+      "evidence": [
+        "User locked five free runs and US $2.99/month or $24.99/year",
+        "Apple StoreKit 2 and App Review Guidelines 3.1.2"
+      ],
+      "risk": "high",
+      "acceptance_test_ids": [
+        "TEST-testFiveFreeFirstPassRunsThenNewJobNeedsSubscription"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-ACCESS-002",
+      "scope": "LAUNCH",
+      "status": "PROVISIONAL",
+      "owner": "WorksBien",
+      "normative_text": "When a free ledger already contains five first-pass runs, the repository rejects a new job before committing.",
+      "evidence": [
+        "User locked five free runs and US $2.99/month or $24.99/year",
+        "Apple StoreKit 2 and App Review Guidelines 3.1.2"
+      ],
+      "risk": "critical",
+      "acceptance_test_ids": [
+        "TEST-testFiveFreeFirstPassRunsThenNewJobNeedsSubscription"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-ACCESS-003",
+      "scope": "LAUNCH",
+      "status": "PROVISIONAL",
+      "owner": "WorksBien",
+      "normative_text": "Rework runs do not count toward the five first-pass runs.",
+      "evidence": [
+        "User locked five free runs and US $2.99/month or $24.99/year",
+        "Apple StoreKit 2 and App Review Guidelines 3.1.2"
+      ],
+      "risk": "high",
+      "acceptance_test_ids": [
+        "TEST-testMixedJobBatchReworkAndBackup"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-ACCESS-004",
+      "scope": "LAUNCH",
+      "status": "PROVISIONAL",
+      "owner": "WorksBien",
+      "normative_text": "After the quota or subscription expiry, previously entered jobs remain completable and their records exportable.",
+      "evidence": [
+        "User locked five free runs and US $2.99/month or $24.99/year",
+        "Apple StoreKit 2 and App Review Guidelines 3.1.2"
+      ],
+      "risk": "critical",
+      "acceptance_test_ids": [
+        "TEST-testFiveFreeFirstPassRunsThenNewJobNeedsSubscription"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-SUB-001",
+      "scope": "LAUNCH",
+      "status": "BLOCKED",
+      "owner": "WorksBien",
+      "normative_text": "The iOS host grants Pro only from a verified current monthly or yearly StoreKit subscription.",
+      "evidence": [
+        "User locked five free runs and US $2.99/month or $24.99/year",
+        "Apple StoreKit 2 and App Review Guidelines 3.1.2"
+      ],
+      "risk": "critical",
+      "acceptance_test_ids": [
+        "TEST-STOREKIT-SANDBOX"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-SUB-002",
+      "scope": "LAUNCH",
+      "status": "BLOCKED",
+      "owner": "WorksBien",
+      "normative_text": "The iOS host displays the storefront-localized product prices and renewal terms before purchase.",
+      "evidence": [
+        "User locked five free runs and US $2.99/month or $24.99/year",
+        "Apple StoreKit 2 and App Review Guidelines 3.1.2"
+      ],
+      "risk": "high",
+      "acceptance_test_ids": [
+        "TEST-STOREKIT-SANDBOX"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REQ-SUB-003",
+      "scope": "LAUNCH",
+      "status": "BLOCKED",
+      "owner": "WorksBien",
+      "normative_text": "The iOS host allows explicit Restore Purchases and does not treat pending, cancelled, expired or revoked transactions as Pro.",
+      "evidence": [
+        "User locked five free runs and US $2.99/month or $24.99/year",
+        "Apple StoreKit 2 and App Review Guidelines 3.1.2"
+      ],
+      "risk": "critical",
+      "acceptance_test_ids": [
+        "TEST-STOREKIT-SANDBOX"
+      ],
+      "dependencies": []
+    }
+  ],
+  "tests": [
+    {
+      "id": "TEST-manual-ios-pdf",
+      "requirement_ids": [
+        "REQ-REPORT-001"
+      ],
+      "platform_matrix": [
+        "iOS 16+"
+      ],
+      "fixture_ids": [
+        "synthetic-multijob"
+      ],
+      "starting_state": "new ledger or supplied backup",
+      "actions": "Perform on-device exercise",
+      "expected_oracle": "Requirement holds; no silent invalid release",
+      "severity_on_failure": "high",
+      "automation_status": "manual_pending"
+    },
+    {
+      "id": "TEST-manual-photo-roundtrip",
+      "requirement_ids": [
+        "REQ-PHOTO-001"
+      ],
+      "platform_matrix": [
+        "iOS 16+"
+      ],
+      "fixture_ids": [
+        "synthetic-multijob"
+      ],
+      "starting_state": "new ledger or supplied backup",
+      "actions": "Perform on-device exercise",
+      "expected_oracle": "Requirement holds; no silent invalid release",
+      "severity_on_failure": "high",
+      "automation_status": "manual_pending"
+    },
+    {
+      "id": "TEST-testBelowTargetReadingResetsDwellAndCorrectionHoldsRelease",
+      "requirement_ids": [
+        "REQ-TEMP-004",
+        "REQ-QC-003",
+        "REQ-AUDIT-001"
+      ],
+      "platform_matrix": [
+        "iOS 16+"
+      ],
+      "fixture_ids": [
+        "synthetic-multijob"
+      ],
+      "starting_state": "new ledger or supplied backup",
+      "actions": "See EngineTests.swift",
+      "expected_oracle": "Requirement holds; no silent invalid release",
+      "severity_on_failure": "high",
+      "automation_status": "authored_not_run"
+    },
+    {
+      "id": "TEST-testCSVQuotesPotentialFormulas",
+      "requirement_ids": [
+        "REQ-EXPORT-001"
+      ],
+      "platform_matrix": [
+        "iOS 16+"
+      ],
+      "fixture_ids": [
+        "synthetic-multijob"
+      ],
+      "starting_state": "new ledger or supplied backup",
+      "actions": "See EngineTests.swift",
+      "expected_oracle": "Requirement holds; no silent invalid release",
+      "severity_on_failure": "high",
+      "automation_status": "authored_not_run"
+    },
+    {
+      "id": "TEST-testConfiguredCheckpointsAndOverTemperatureHold",
+      "requirement_ids": [
+        "REQ-PREP-001",
+        "REQ-BATCH-002",
+        "REQ-TEMP-005"
+      ],
+      "platform_matrix": [
+        "iOS 16+"
+      ],
+      "fixture_ids": [
+        "synthetic-multijob"
+      ],
+      "starting_state": "new ledger or supplied backup",
+      "actions": "See EngineTests.swift",
+      "expected_oracle": "Requirement holds; no silent invalid release",
+      "severity_on_failure": "high",
+      "automation_status": "authored_not_run"
+    },
+    {
+      "id": "TEST-testInvalidRevisionAndBadBackup",
+      "requirement_ids": [
+        "REQ-SYNC-001",
+        "REQ-STORE-001"
+      ],
+      "platform_matrix": [
+        "iOS 16+"
+      ],
+      "fixture_ids": [
+        "synthetic-multijob"
+      ],
+      "starting_state": "new ledger or supplied backup",
+      "actions": "See EngineTests.swift",
+      "expected_oracle": "Requirement holds; no silent invalid release",
+      "severity_on_failure": "high",
+      "automation_status": "authored_not_run"
+    },
+    {
+      "id": "TEST-testMixedJobBatchReworkAndBackup",
+      "requirement_ids": [
+        "REQ-DATA-001",
+        "REQ-DATA-002",
+        "REQ-BATCH-001",
+        "REQ-QC-001",
+        "REQ-QC-002",
+        "REQ-QC-004",
+        "REQ-CLOSE-001",
+        "REQ-HANDOFF-001"
+      ],
+      "platform_matrix": [
+        "iOS 16+"
+      ],
+      "fixture_ids": [
+        "synthetic-multijob"
+      ],
+      "starting_state": "new ledger or supplied backup",
+      "actions": "See EngineTests.swift",
+      "expected_oracle": "Requirement holds; no silent invalid release",
+      "severity_on_failure": "high",
+      "automation_status": "authored_not_run"
+    },
+    {
+      "id": "TEST-testOvenAirCannotStartCureAndTimeCannotEndEarly",
+      "requirement_ids": [
+        "REQ-TEMP-001",
+        "REQ-TEMP-002",
+        "REQ-TEMP-003"
+      ],
+      "platform_matrix": [
+        "iOS 16+"
+      ],
+      "fixture_ids": [
+        "synthetic-multijob"
+      ],
+      "starting_state": "new ledger or supplied backup",
+      "actions": "See EngineTests.swift",
+      "expected_oracle": "Requirement holds; no silent invalid release",
+      "severity_on_failure": "high",
+      "automation_status": "authored_not_run"
+    },
+    {
+      "id": "TEST-testThousandSyntheticCustomerIntakeAndCorrectionScenarios",
+      "requirement_ids": [
+        "REQ-DATA-001",
+        "REQ-DATA-002",
+        "REQ-STORE-001"
+      ],
+      "platform_matrix": [
+        "iOS 16+",
+        "macOS 13+ diagnostic"
+      ],
+      "fixture_ids": [
+        "synthetic-multijob"
+      ],
+      "starting_state": "new synthetic ledger",
+      "actions": "See EngineTests.swift",
+      "expected_oracle": "Named assertions pass; no invalid release or silent data loss",
+      "severity_on_failure": "high",
+      "automation_status": "authored_not_run"
+    },
+    {
+      "id": "TEST-testTenThousandAcceleratedLifecyclesAcrossThousandYears",
+      "requirement_ids": [
+        "REQ-TEMP-002",
+        "REQ-TEMP-003"
+      ],
+      "platform_matrix": [
+        "iOS 16+",
+        "macOS 13+ diagnostic"
+      ],
+      "fixture_ids": [
+        "synthetic-multijob"
+      ],
+      "starting_state": "new synthetic ledger",
+      "actions": "See EngineTests.swift",
+      "expected_oracle": "Named assertions pass; no invalid release or silent data loss",
+      "severity_on_failure": "high",
+      "automation_status": "authored_not_run"
+    },
+    {
+      "id": "TEST-testCorrectionsChangeAuthoritativeRecordsAndPreserveAudit",
+      "requirement_ids": [
+        "REQ-DATA-001",
+        "REQ-AUDIT-001"
+      ],
+      "platform_matrix": [
+        "iOS 16+",
+        "macOS 13+ diagnostic"
+      ],
+      "fixture_ids": [
+        "synthetic-multijob"
+      ],
+      "starting_state": "new synthetic ledger",
+      "actions": "See EngineTests.swift",
+      "expected_oracle": "Named assertions pass; no invalid release or silent data loss",
+      "severity_on_failure": "high",
+      "automation_status": "authored_not_run"
+    },
+    {
+      "id": "TEST-testNoBackdatedUnloadInspectionOrHandoff",
+      "requirement_ids": [
+        "REQ-QC-001",
+        "REQ-CLOSE-001"
+      ],
+      "platform_matrix": [
+        "iOS 16+",
+        "macOS 13+ diagnostic"
+      ],
+      "fixture_ids": [
+        "synthetic-multijob"
+      ],
+      "starting_state": "new synthetic ledger",
+      "actions": "See EngineTests.swift",
+      "expected_oracle": "Named assertions pass; no invalid release or silent data loss",
+      "severity_on_failure": "high",
+      "automation_status": "authored_not_run"
+    },
+    {
+      "id": "TEST-testMistakenCorrectionCanBeReviewedAndResolved",
+      "requirement_ids": [
+        "REQ-QC-003",
+        "REQ-AUDIT-001"
+      ],
+      "platform_matrix": [
+        "iOS 16+",
+        "macOS 13+ diagnostic"
+      ],
+      "fixture_ids": [
+        "synthetic-multijob"
+      ],
+      "starting_state": "new synthetic ledger",
+      "actions": "See EngineTests.swift",
+      "expected_oracle": "Named assertions pass; no invalid release or silent data loss",
+      "severity_on_failure": "high",
+      "automation_status": "authored_not_run"
+    },
+    {
+      "id": "TEST-testPhotoEvidenceAndTruncation",
+      "requirement_ids": [
+        "REQ-PHOTO-001"
+      ],
+      "platform_matrix": [
+        "iOS 16+",
+        "macOS 13+ diagnostic"
+      ],
+      "fixture_ids": [
+        "synthetic-multijob"
+      ],
+      "starting_state": "new synthetic ledger",
+      "actions": "See EngineTests.swift",
+      "expected_oracle": "Named assertions pass; no invalid release or silent data loss",
+      "severity_on_failure": "high",
+      "automation_status": "authored_not_run"
+    },
+    {
+      "id": "TEST-testAcceptedRunCanResolveMistakenCorrectionWithoutRework",
+      "requirement_ids": [
+        "REQ-QC-003"
+      ],
+      "platform_matrix": [
+        "iOS 16+",
+        "macOS 13+ diagnostic"
+      ],
+      "fixture_ids": [
+        "synthetic-multijob"
+      ],
+      "starting_state": "new synthetic ledger",
+      "actions": "See EngineTests.swift",
+      "expected_oracle": "Named assertions pass; no invalid release or silent data loss",
+      "severity_on_failure": "high",
+      "automation_status": "authored_not_run"
+    },
+    {
+      "id": "TEST-testForgedAcceptedArchiveWithoutMeasurementsIsRejected",
+      "requirement_ids": [
+        "REQ-STORE-001"
+      ],
+      "platform_matrix": [
+        "iOS 16+",
+        "macOS 13+ diagnostic"
+      ],
+      "fixture_ids": [
+        "synthetic-multijob"
+      ],
+      "starting_state": "new synthetic ledger",
+      "actions": "See EngineTests.swift",
+      "expected_oracle": "Named assertions pass; no invalid release or silent data loss",
+      "severity_on_failure": "high",
+      "automation_status": "authored_not_run"
+    },
+    {
+      "id": "TEST-testTwoRepositoriesDoNotOverwriteEachOther",
+      "requirement_ids": [
+        "REQ-STORE-001"
+      ],
+      "platform_matrix": [
+        "iOS 16+",
+        "macOS 13+ diagnostic"
+      ],
+      "fixture_ids": [
+        "synthetic-multijob"
+      ],
+      "starting_state": "new synthetic ledger",
+      "actions": "See EngineTests.swift",
+      "expected_oracle": "Named assertions pass; no invalid release or silent data loss",
+      "severity_on_failure": "high",
+      "automation_status": "authored_not_run"
+    },
+    {
+      "id": "TEST-testClosedJobCorrectionRecordsAlertWithoutReopeningDelivery",
+      "requirement_ids": [
+        "REQ-HANDOFF-002"
+      ],
+      "platform_matrix": [
+        "iOS 16+",
+        "macOS 13+ diagnostic"
+      ],
+      "fixture_ids": [
+        "synthetic-multijob"
+      ],
+      "starting_state": "new synthetic ledger",
+      "actions": "See EngineTests.swift",
+      "expected_oracle": "Named assertions pass; no silent invalid handoff or recipe",
+      "severity_on_failure": "high",
+      "automation_status": "authored_not_run"
+    },
+    {
+      "id": "TEST-testThermalRecipeRejectsImplausibleLowEntry",
+      "requirement_ids": [
+        "REQ-TEMP-006"
+      ],
+      "platform_matrix": [
+        "iOS 16+",
+        "macOS 13+ diagnostic"
+      ],
+      "fixture_ids": [
+        "synthetic-multijob"
+      ],
+      "starting_state": "new synthetic ledger",
+      "actions": "See EngineTests.swift",
+      "expected_oracle": "Named assertions pass; no silent invalid handoff or recipe",
+      "severity_on_failure": "high",
+      "automation_status": "authored_not_run"
+    },
+    {
+      "id": "TEST-testShopPresetNeedsFreshRunFactsAndKeepsHistoricalRecipeSnapshot",
+      "requirement_ids": [
+        "REQ-PRESET-001",
+        "REQ-PRESET-002",
+        "REQ-PRESET-003",
+        "REQ-PRESET-004"
+      ],
+      "platform_matrix": [
+        "iOS 16+",
+        "macOS 13+ diagnostic"
+      ],
+      "fixture_ids": [
+        "synthetic-multijob"
+      ],
+      "starting_state": "new ledger",
+      "actions": "See EngineTests.swift",
+      "expected_oracle": "Named assertions pass; run facts and historical snapshots stay intact",
+      "severity_on_failure": "high",
+      "automation_status": "authored_not_run"
+    },
+    {
+      "id": "TEST-testOldLedgerArchiveWithoutPresetsStillDecodes",
+      "requirement_ids": [
+        "REQ-PRESET-005"
+      ],
+      "platform_matrix": [
+        "iOS 16+",
+        "macOS 13+ diagnostic"
+      ],
+      "fixture_ids": [
+        "synthetic-multijob"
+      ],
+      "starting_state": "schema-1 JSON without presets key",
+      "actions": "See EngineTests.swift",
+      "expected_oracle": "Named assertions pass; run facts and historical snapshots stay intact",
+      "severity_on_failure": "high",
+      "automation_status": "authored_not_run"
+    },
+    {
+      "id": "TEST-testFiveFreeFirstPassRunsThenNewJobNeedsSubscription",
+      "requirement_ids": [
+        "REQ-ACCESS-001",
+        "REQ-ACCESS-002",
+        "REQ-ACCESS-004"
+      ],
+      "platform_matrix": [
+        "iOS 16+",
+        "macOS 13+ diagnostic"
+      ],
+      "fixture_ids": [
+        "synthetic-multijob"
+      ],
+      "starting_state": "fresh install and restored ledger",
+      "actions": "Run five first-pass jobs, reject new work, allow existing work, simulate entitlement lapse",
+      "expected_oracle": "New job authorizes only within free boundary or verified active subscription; existing work remains accessible",
+      "severity_on_failure": "critical",
+      "automation_status": "authored_not_run"
+    },
+    {
+      "id": "TEST-STOREKIT-SANDBOX",
+      "requirement_ids": [
+        "REQ-SUB-001",
+        "REQ-SUB-002",
+        "REQ-SUB-003"
+      ],
+      "platform_matrix": [
+        "iOS 16+"
+      ],
+      "fixture_ids": [
+        "synthetic-multijob"
+      ],
+      "starting_state": "fresh install and restored ledger",
+      "actions": "Create real subscription products and exercise purchase, pending, cancellation, renewal, grace, refund, expiry, restore and offline launch in Xcode and Apple sandbox",
+      "expected_oracle": "New job authorizes only within free boundary or verified active subscription; existing work remains accessible",
+      "severity_on_failure": "critical",
+      "automation_status": "not_run"
+    }
+  ],
+  "fixtures": [
+    {
+      "id": "synthetic-multijob",
+      "description": "Two sample jobs sharing one oven batch"
+    }
+  ],
+  "performance_budgets": {
+    "status": "blocked: full JSON rewrite with embedded JPEGs; measure and redesign on iPhone"
+  },
+  "simulation_parameters": {
+    "seed": 42,
+    "required_generated_sequences_per_critical_invariant": 10000,
+    "status": "authored_not_run",
+    "customer_scenarios": 1000,
+    "lifecycle_sequences": 10000,
+    "accelerated_years_approx": 1000,
+    "lifecycle_seed": "0x5EED_C0A7"
+  },
+  "tool_thresholds": {
+    "swift_test": "required unrun",
+    "warnings": "zero",
+    "mutation_score_percent": 80,
+    "fuzz_seconds_per_parser": 1800,
+    "status": "pending"
+  },
+  "unresolved_decisions": [
+    "Three-shop workflow observation",
+    "Launch locales",
+    "Qualified shop procedure review",
+    "On-device PDF and photo restore",
+    "Swift/Xcode compile and XCTest",
+    "Separate bounded media storage and low-space recovery",
+    "Qualified shop validation of thermal recipe floor and unsupported low-temperature/UV systems",
+    "Migration plan for historical archives with recipe targets below 120 °C",
+    "On-device post-handoff quality alert and customer follow-up workflow",
+    "Competitor task comparison and observed willingness to pay",
+    "App Store Connect monthly and yearly product IDs, native host, localized paywall and sandbox purchase/restore testing"
+  ]
+}
