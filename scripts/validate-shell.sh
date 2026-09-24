@@ -91,7 +91,13 @@ def keys(path)
   File.readlines(path).filter_map { |line| line[/^\s*"([^"]+)"\s*=/, 1] }.sort
 end
 base = keys("Shell/Resources/en.lproj/Localizable.strings")
-Dir["Shell/Resources/*.lproj/Localizable.strings"].each do |path|
+config = File.read("Shell/App/ShellConfiguration.swift")
+supported = config[/static let supportedLanguages:.*?=\s*\[(.*?)\]/m, 1] or abort "Missing supported language list"
+selected = supported.scan(/\.init\(id:\s*"([^"]+)"/).flatten - ["system"]
+abort "No selectable app language" if selected.empty?
+selected.each do |locale|
+  path = "Shell/Resources/#{locale}.lproj/Localizable.strings"
+  abort "Missing selected localization #{path}" unless File.file?(path)
   abort "Localization key mismatch in #{path}" unless keys(path) == base
 end
 abort "Duplicate English localization keys" unless base.length == base.uniq.length
@@ -118,11 +124,8 @@ if [[ "$mode" == "--release" || "$mode" == "--release-ads" ]]; then
   reject_text project.yml 'com.goodusestudios.shelllab'
   reject_text project.yml 'PRODUCT_NAME: Shell'
   reject_text Shell/Resources/en.lproj/Localizable.strings 'REPLACE_WITH_REVIEWED_'
-  reject_text Shell/Resources/es.lproj/Localizable.strings 'REPLACE_WITH_REVIEWED_'
   reject_text Shell/Resources/en.lproj/Localizable.strings 'Make the useful thing unlimited.'
   reject_text Shell/Resources/en.lproj/Localizable.strings 'Unlimited core actions'
-  reject_text Shell/Resources/es.lproj/Localizable.strings 'Usa la función sin límites.'
-  reject_text Shell/Resources/es.lproj/Localizable.strings 'Acciones principales ilimitadas'
   reject_text Shell/App/ShellApp.swift 'PlaceholderFeatureCanvasProvider()'
   grep -Fq 'privacyURL: URL(string: "https://' Shell/App/ShellConfiguration.swift || fail "Privacy URL must use HTTPS"
   grep -Fq 'termsURL: URL(string: "https://' Shell/App/ShellConfiguration.swift || fail "Terms URL must use HTTPS"
