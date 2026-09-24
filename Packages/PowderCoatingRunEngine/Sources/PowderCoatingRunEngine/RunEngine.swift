@@ -89,6 +89,16 @@ public struct Inspection: Codable, Equatable, Sendable {
     public let thickness: InspectionOutcome?
     public let adhesion: InspectionOutcome?
     public let note: String
+
+    public init(checkedAt: Date, operatorName: String, visual: InspectionOutcome,
+                thickness: InspectionOutcome?, adhesion: InspectionOutcome?, note: String) {
+        self.checkedAt = checkedAt
+        self.operatorName = operatorName
+        self.visual = visual
+        self.thickness = thickness
+        self.adhesion = adhesion
+        self.note = note
+    }
 }
 
 public struct Disposition: Codable, Equatable, Sendable {
