@@ -47,7 +47,7 @@ final class AccessController {
         if featureScopedGate && (mode == .usageCapWithSubscription || mode == .usageCapWithOneTimeUnlock) {
             return .allowed
         }
-        switch mode {
+        return switch mode {
         case .free, .ads, .adsWithRemovePurchase, .adsWithSubscription:
             .allowed
         case .oneTimeUnlock, .subscription:
