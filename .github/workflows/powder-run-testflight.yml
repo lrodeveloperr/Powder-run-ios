@@ -19,10 +19,6 @@ env:
   IOS_BUNDLE_ID: com.goodusestudios.powderrun
   WIDGET_BUNDLE_ID: com.goodusestudios.powderrun.widgets
   APPLE_TEAM_ID: ${{ vars.APPLE_TEAM_ID }}
-  APP_NAME: 'Powder Run: Coating Log'
-  APP_SKU: powder-run-ios
-  APP_PROFILE_NAME: ${{ vars.POWDER_RUN_APP_PROFILE_NAME }}
-  WIDGET_PROFILE_NAME: ${{ vars.POWDER_RUN_WIDGET_PROFILE_NAME }}
   SCHEME: Shell
   ARCHIVE_PATH: ${{ github.workspace }}/build/PowderRun.xcarchive
   EXPORT_PATH: ${{ github.workspace }}/build/export
@@ -47,7 +43,7 @@ jobs:
           CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           [[ "$CONFIRMATION" == "UPLOAD POWDER RUN" ]] || { echo 'Confirmation must exactly match UPLOAD POWDER RUN.' >&2; exit 1; }
-          [[ -n "$APPLE_TEAM_ID" && -n "$APP_PROFILE_NAME" && -n "$WIDGET_PROFILE_NAME" ]] || { echo 'Set APPLE_TEAM_ID, POWDER_RUN_APP_PROFILE_NAME and POWDER_RUN_WIDGET_PROFILE_NAME repository variables.' >&2; exit 1; }
+          [[ -n "$APPLE_TEAM_ID" ]] || { echo 'Set the APPLE_TEAM_ID repository variable.' >&2; exit 1; }
           build_number="$(date -u +%y%m%d%H%M).${GITHUB_RUN_NUMBER}"
           echo "BUILD_NUMBER=$build_number" >> "$GITHUB_ENV"
       - name: Select Xcode and install XcodeGen
@@ -56,11 +52,10 @@ jobs:
           command -v xcodegen >/dev/null || brew install xcodegen
           command -v rg >/dev/null || brew install ripgrep
           xcodebuild -version
-      - name: Generate and verify simulator build
+      - name: Validate release source and generate Xcode project
         run: |
           scripts/validate-shell.sh --release
           xcodegen generate
-          xcodebuild -project Shell.xcodeproj -scheme "$SCHEME" -configuration Release -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO CURRENT_PROJECT_VERSION="$BUILD_NUMBER" build
       - name: Prepare App Store Connect credentials
         env:
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
@@ -80,112 +75,28 @@ jobs:
           printf '%s' "$ASC_PRIVATE_KEY" > "$key_path"
           chmod 600 "$key_path"
           echo "ASC_KEY_PATH=$key_path" >> "$GITHUB_ENV"
-      - name: Ensure bundle ID and private App Store record
+      - name: Archive app with automatic signing
         env:
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
         run: |
-          jwt="$(ruby scripts/app-store-connect-jwt.rb "$ASC_KEY_PATH" "$ASC_KEY_ID" "$ASC_ISSUER_ID")"
-          echo "::add-mask::$jwt"
-          echo "ASC_JWT=$jwt" >> "$GITHUB_ENV"
-          auth="Authorization: Bearer $jwt"
-          bundle_json="$RUNNER_TEMP/bundle.json"
-          curl --fail-with-body --silent --show-error --get -H "$auth" --data-urlencode "filter[identifier]=$IOS_BUNDLE_ID" --data-urlencode 'limit=2' 'https://api.appstoreconnect.apple.com/v1/bundleIds' -o "$bundle_json"
-          count="$(ruby -rjson -e 'puts JSON.parse(File.read(ARGV[0])).fetch("data").length' "$bundle_json")"
-          if [[ "$count" == "0" ]]; then
-            ruby -rjson -e 'puts JSON.generate(data:{type:"bundleIds",attributes:{identifier:ENV.fetch("IOS_BUNDLE_ID"),name:ENV.fetch("APP_NAME"),platform:"IOS"}})' > "$RUNNER_TEMP/create-bundle.json"
-            curl --fail-with-body --silent --show-error -X POST -H "$auth" -H 'Content-Type: application/json' -d @"$RUNNER_TEMP/create-bundle.json" 'https://api.appstoreconnect.apple.com/v1/bundleIds' -o "$bundle_json"
-          elif [[ "$count" != "1" ]]; then
-            echo 'Bundle ID lookup was ambiguous.' >&2; exit 1
-          fi
-          app_json="$RUNNER_TEMP/app.json"
-          curl --fail-with-body --silent --show-error --get -H "$auth" --data-urlencode "filter[bundleId]=$IOS_BUNDLE_ID" --data-urlencode 'limit=2' 'https://api.appstoreconnect.apple.com/v1/apps' -o "$app_json"
-          app_count="$(ruby -rjson -e 'puts JSON.parse(File.read(ARGV[0])).fetch("data").length' "$app_json")"
-          if [[ "$app_count" == "0" ]]; then
-            ruby -rjson -e 'puts JSON.generate(data:{type:"apps",attributes:{bundleId:ENV.fetch("IOS_BUNDLE_ID"),name:ENV.fetch("APP_NAME"),primaryLocale:"en-US",sku:ENV.fetch("APP_SKU")}})' > "$RUNNER_TEMP/create-app.json"
-            curl --fail-with-body --silent --show-error -X POST -H "$auth" -H 'Content-Type: application/json' -d @"$RUNNER_TEMP/create-app.json" 'https://api.appstoreconnect.apple.com/v1/apps' -o "$app_json"
-          elif [[ "$app_count" != "1" ]]; then
-            echo 'App lookup was ambiguous.' >&2; exit 1
-          fi
-      - name: Install distribution signing assets
-        env:
-          IOS_DISTRIBUTION_CERTIFICATE_P12: ${{ secrets.IOS_DISTRIBUTION_CERTIFICATE_P12 }}
-          IOS_DISTRIBUTION_CERTIFICATE_PASSWORD: ${{ secrets.IOS_DISTRIBUTION_CERTIFICATE_PASSWORD }}
-        run: |
-          [[ -n "$IOS_DISTRIBUTION_CERTIFICATE_P12" ]] || { echo 'Missing repository Actions secret: IOS_DISTRIBUTION_CERTIFICATE_P12' >&2; exit 1; }
-          [[ -n "$IOS_DISTRIBUTION_CERTIFICATE_PASSWORD" ]] || { echo 'Missing repository Actions secret: IOS_DISTRIBUTION_CERTIFICATE_PASSWORD' >&2; exit 1; }
-
-          cert_path="$RUNNER_TEMP/distribution.p12"
-          printf '%s' "$IOS_DISTRIBUTION_CERTIFICATE_P12" | base64 --decode > "$cert_path"
-          chmod 600 "$cert_path"
-
-          keychain_path="$RUNNER_TEMP/app-signing.keychain-db"
-          keychain_password="$(openssl rand -hex 24)"
-          security create-keychain -p "$keychain_password" "$keychain_path"
-          security set-keychain-settings -lut 21600 "$keychain_path"
-          security unlock-keychain -p "$keychain_password" "$keychain_path"
-          security import "$cert_path" -P "$IOS_DISTRIBUTION_CERTIFICATE_PASSWORD" -A -t cert -f pkcs12 -k "$keychain_path"
-          security set-key-partition-list -S apple-tool:,apple: -s -k "$keychain_password" "$keychain_path"
-          security list-keychains -d user -s "$keychain_path" $(security list-keychains -d user | tr -d '"')
-          security find-identity -v -p codesigning "$keychain_path" | grep 'Apple Distribution'
-
-          profile_dir="$HOME/Library/MobileDevice/Provisioning Profiles"
-          mkdir -p "$profile_dir"
-          for target in app widget; do
-            if [[ "$target" == app ]]; then
-              profile_name_expected="$APP_PROFILE_NAME"
-              bundle_id="$IOS_BUNDLE_ID"
-            else
-              profile_name_expected="$WIDGET_PROFILE_NAME"
-              bundle_id="$WIDGET_BUNDLE_ID"
-            fi
-            profile_json="$RUNNER_TEMP/$target-profiles.json"
-            curl --fail-with-body --silent --show-error --get \
-              -H "Authorization: Bearer $ASC_JWT" \
-              --data-urlencode "filter[name]=$profile_name_expected" \
-              --data-urlencode 'filter[profileState]=ACTIVE' \
-              --data-urlencode 'limit=2' \
-              'https://api.appstoreconnect.apple.com/v1/profiles' -o "$profile_json"
-            profile_count="$(ruby -rjson -e 'puts JSON.parse(File.read(ARGV[0])).fetch("data").length' "$profile_json")"
-            [[ "$profile_count" == 1 ]] || { echo "Expected one active $target profile named $profile_name_expected; found $profile_count." >&2; exit 1; }
-            profile_path="$RUNNER_TEMP/$target.mobileprovision"
-            ruby -rjson -rbase64 -e 'doc=JSON.parse(File.read(ARGV[0])); print Base64.decode64(doc.fetch("data").fetch(0).fetch("attributes").fetch("profileContent"))' "$profile_json" > "$profile_path"
-            security cms -D -i "$profile_path" > "$RUNNER_TEMP/$target-profile.plist"
-            profile_uuid="$(/usr/libexec/PlistBuddy -c 'Print :UUID' "$RUNNER_TEMP/$target-profile.plist")"
-            profile_name="$(/usr/libexec/PlistBuddy -c 'Print :Name' "$RUNNER_TEMP/$target-profile.plist")"
-            app_identifier="$(/usr/libexec/PlistBuddy -c 'Print :Entitlements:application-identifier' "$RUNNER_TEMP/$target-profile.plist")"
-            profile_type="$(/usr/libexec/PlistBuddy -c 'Print :ProvisionsAllDevices' "$RUNNER_TEMP/$target-profile.plist" 2>/dev/null || true)"
-            debug_entitlement="$(/usr/libexec/PlistBuddy -c 'Print :Entitlements:get-task-allow' "$RUNNER_TEMP/$target-profile.plist" 2>/dev/null || true)"
-            [[ "$profile_name" == "$profile_name_expected" && "$app_identifier" == "$APPLE_TEAM_ID.$bundle_id" ]] || { echo "The $target profile name or App ID does not match." >&2; exit 1; }
-            [[ "$profile_type" != true ]] || { echo 'An enterprise profile cannot sign an App Store upload.' >&2; exit 1; }
-            [[ "$debug_entitlement" == false ]] || { echo "The $target profile must not permit debugging." >&2; exit 1; }
-            cp "$profile_path" "$profile_dir/$profile_uuid.mobileprovision"
-            chmod 600 "$profile_dir/$profile_uuid.mobileprovision"
-          done
-          echo "SIGNING_KEYCHAIN=$keychain_path" >> "$GITHUB_ENV"
-      - name: Archive unsigned app
-        run: |
           rm -rf "$ARCHIVE_PATH" "$EXPORT_PATH"
           mkdir -p "$(dirname "$ARCHIVE_PATH")" "$EXPORT_PATH"
-          xcodebuild -project Shell.xcodeproj -scheme "$SCHEME" -configuration Release -destination 'generic/platform=iOS' -archivePath "$ARCHIVE_PATH" DEVELOPMENT_TEAM="$APPLE_TEAM_ID" CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" CURRENT_PROJECT_VERSION="$BUILD_NUMBER" clean archive
-          app="$(find "$ARCHIVE_PATH/Products/Applications" -maxdepth 1 -type d -name '*.app' -print -quit)"
-          test -n "$app"
-          while IFS= read -r -d '' framework; do codesign --force --sign - --timestamp=none "$framework"; done < <(find "$app/Frameworks" -depth -type d -name '*.framework' -print0 2>/dev/null || true)
+          xcodebuild -project Shell.xcodeproj -scheme "$SCHEME" -configuration Release -destination 'generic/platform=iOS' -archivePath "$ARCHIVE_PATH" DEVELOPMENT_TEAM="$APPLE_TEAM_ID" CURRENT_PROJECT_VERSION="$BUILD_NUMBER" -allowProvisioningUpdates -authenticationKeyPath "$ASC_KEY_PATH" -authenticationKeyID "$ASC_KEY_ID" -authenticationKeyIssuerID "$ASC_ISSUER_ID" clean archive
       - name: Export and verify signed IPA
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
         run: |
           export_options="$RUNNER_TEMP/ExportOptions.plist"
           plutil -create xml1 "$export_options"
           /usr/libexec/PlistBuddy -c 'Add :method string app-store-connect' "$export_options"
           /usr/libexec/PlistBuddy -c 'Add :destination string export' "$export_options"
-          /usr/libexec/PlistBuddy -c 'Add :signingStyle string manual' "$export_options"
-          /usr/libexec/PlistBuddy -c 'Add :signingCertificate string "Apple Distribution"' "$export_options"
+          /usr/libexec/PlistBuddy -c 'Add :signingStyle string automatic' "$export_options"
           /usr/libexec/PlistBuddy -c "Add :teamID string $APPLE_TEAM_ID" "$export_options"
           /usr/libexec/PlistBuddy -c 'Add :manageAppVersionAndBuildNumber bool false' "$export_options"
           /usr/libexec/PlistBuddy -c 'Add :uploadSymbols bool true' "$export_options"
-          /usr/libexec/PlistBuddy -c 'Add :provisioningProfiles dict' "$export_options"
-          /usr/libexec/PlistBuddy -c "Add :provisioningProfiles:$IOS_BUNDLE_ID string $APP_PROFILE_NAME" "$export_options"
-          /usr/libexec/PlistBuddy -c "Add :provisioningProfiles:$WIDGET_BUNDLE_ID string $WIDGET_PROFILE_NAME" "$export_options"
-          xcodebuild -exportArchive -archivePath "$ARCHIVE_PATH" -exportPath "$EXPORT_PATH" -exportOptionsPlist "$export_options"
+          xcodebuild -exportArchive -archivePath "$ARCHIVE_PATH" -exportPath "$EXPORT_PATH" -exportOptionsPlist "$export_options" -allowProvisioningUpdates -authenticationKeyPath "$ASC_KEY_PATH" -authenticationKeyID "$ASC_KEY_ID" -authenticationKeyIssuerID "$ASC_ISSUER_ID"
           IPA_PATH="$(find "$EXPORT_PATH" -maxdepth 1 -type f -name '*.ipa' -print -quit)"
           test -n "$IPA_PATH"
           echo "IPA_PATH=$IPA_PATH" >> "$GITHUB_ENV"
