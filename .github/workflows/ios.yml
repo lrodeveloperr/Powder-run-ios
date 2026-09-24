@@ -16,6 +16,7 @@ jobs:
         run: |
           if [[ -d /Applications/Xcode_26.6.app ]]; then sudo xcode-select -s /Applications/Xcode_26.6.app/Contents/Developer; fi
           command -v xcodegen >/dev/null || brew install xcodegen
+          command -v rg >/dev/null || brew install ripgrep
           xcodebuild -version
       - name: Validate current source
         run: |
