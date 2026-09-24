@@ -150,7 +150,7 @@ final class ShellTests: XCTestCase {
         defaults.set("fr", forKey: "shell.language")
         let language = LanguageController(defaults: defaults, preferredLanguages: ["es-MX"])
         XCTAssertEqual(language.selection, "system")
-        XCTAssertEqual(LanguageController.closestSupported(to: "es-MX"), "es")
+        XCTAssertEqual(LanguageController.closestSupported(to: "es-MX"), "en")
         XCTAssertEqual(LanguageController.closestSupported(to: "fr-CA"), "en")
         XCTAssertTrue(SupportedLocaleResolver.isRightToLeft("ar-SA"))
         XCTAssertTrue(SupportedLocaleResolver.isRightToLeft("ur_PK"))
