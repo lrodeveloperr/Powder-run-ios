@@ -138,7 +138,7 @@ private struct NewJobForm: View {
                 TextField("Job reference", text: $reference).textInputAutocapitalization(.characters)
                 TextField("Customer reference (optional)", text: $customer)
             }
-            Section("First physical item group") {
+            Section {
                 if !shop.ledger.presets.isEmpty {
                     Picker("Shop setup (optional)", selection: $selectedPresetID) {
                         Text("Enter part manually").tag(Optional<UUID>.none)
@@ -151,6 +151,8 @@ private struct NewJobForm: View {
                 TextField("Quantity", text: $quantity).keyboardType(.numberPad)
                 TextField("Substrate", text: $substrate)
                 TextField("Requested finish", text: $finish)
+            } header: {
+                Text("First physical item group")
             } footer: {
                 Text("Other item groups can be added to this job. Record actual quantity and finish, not a preset guess.")
             }
@@ -269,11 +271,11 @@ private struct PrepForm: View {
                 TextField("Observation (optional)", text: $note)
                 TextField("Operator", text: $operatorName)
             }
-            Section("Recent shop choices") {
+            Section {
                 ForEach(["Surface cleaned", "Dry and ready", "Masking confirmed"], id: \.self) { choice in
                     Button(choice) { name = choice }
                 }
-            } footer: { Text("Choices only fill the label. Save only a check that was actually done for this item.") }
+            } header: { Text("Recent shop choices") } footer: { Text("Choices only fill the label. Save only a check that was actually done for this item.") }
         }
         .navigationTitle("Record prep")
         .toolbar {
