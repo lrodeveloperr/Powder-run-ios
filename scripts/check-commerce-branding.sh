@@ -12,6 +12,7 @@ while IFS= read -r path; do commerce_files+=("$path"); done < <(
 )
 
 (( ${#commerce_files[@]} > 0 )) || fail "No commerce surfaces were found"
+command -v rg >/dev/null 2>&1 || fail "ripgrep is required for the commerce branding check"
 
 # SF Symbols are allowed. Named image assets and app-brand references are not.
 if rg -n -P 'Image\s*\(\s*(?!systemName:)|UIImage\s*\(\s*named:|ImageResource\.|ShellConfiguration\.appName|\.appIcon\b|Asset\.[A-Za-z0-9_]*(Logo|Icon|Brand)' "${commerce_files[@]}"; then
