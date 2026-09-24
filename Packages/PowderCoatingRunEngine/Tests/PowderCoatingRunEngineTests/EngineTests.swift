@@ -367,15 +367,16 @@ final class EngineTests: XCTestCase {
                                        reason: "intake transcription", operatorName: "fixture",
                                        at: when.addingTimeInterval(1))
             }
+            let assigned = max(1, item.quantity - (index % 2))
             let runID = try ledger.createRun(jobID: job.id, itemID: item.id,
-                                             quantity: max(1, item.quantity - (index % 2)), recipe: recipe(),
+                                             quantity: assigned, recipe: recipe(),
                                              powderLot: "L\(index % 11)", booth: "B\(index % 3)",
                                              operatorName: "fixture", at: when.addingTimeInterval(2))
             XCTAssertEqual(ledger.links[0].runID, runID)
             let restored = try LedgerArchive.decode(LedgerArchive.encode(ledger))
             let summary = try restored.summary(jobID: job.id, itemID: item.id)
             XCTAssertEqual(summary.intake, item.quantity, "customer \(index)")
-            XCTAssertEqual(summary.notProcessed, item.quantity, "customer \(index)")
+            XCTAssertEqual(summary.notProcessed, item.quantity - assigned, "customer \(index)")
         }
     }
 
