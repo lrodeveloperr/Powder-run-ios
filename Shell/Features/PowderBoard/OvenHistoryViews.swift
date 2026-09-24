@@ -72,7 +72,7 @@ private struct LoadBatchForm: View {
                 TextField("Batch ID or rack ID", text: $name)
                 TextField("Actual oven", text: $equipment)
             }
-            Section("Select runs physically loaded together") {
+            Section {
                 ForEach(available, id: \.id) { run in
                     Button {
                         if !selected.insert(run.id).inserted { selected.remove(run.id) }
@@ -86,14 +86,12 @@ private struct LoadBatchForm: View {
                     }
                     .buttonStyle(.plain)
                 }
-            } footer: { Text("Each run keeps its own powder TDS and part-metal cure record.") }
+            } header: { Text("Select runs physically loaded together") } footer: { Text("Each run keeps its own powder TDS and part-metal cure record.") }
         }
         .navigationTitle("Load batch")
         .onChange(of: selected) { _, ids in
-            let ovens = Set(ids.compactMap { runID -> String? in
-                guard let used = shop.ledger.events.last(where: { $0.kind == "presetUsed" && $0.subjectID == runID }) else { return nil }
-                return shop.ledger.presets.first(where: { used.detail.hasPrefix($0.id.uuidString) })?.suggestedOven
-            })
+            let suggestions: [String] = ids.compactMap { suggestedOven(for: $0) }
+            let ovens = Set(suggestions)
             if ovens.count == 1, let suggestion = ovens.first { equipment = suggestion }
         }
         .toolbar {
@@ -107,6 +105,11 @@ private struct LoadBatchForm: View {
                 }.disabled(name.isEmpty || equipment.isEmpty || selected.isEmpty || shop.busy)
             }
         }
+    }
+
+    private func suggestedOven(for runID: UUID) -> String? {
+        guard let used = shop.ledger.events.last(where: { $0.kind == "presetUsed" && $0.subjectID == runID }) else { return nil }
+        return shop.ledger.presets.first(where: { used.detail.hasPrefix($0.id.uuidString) })?.suggestedOven
     }
 }
 
@@ -201,9 +204,9 @@ private struct UnloadForm: View {
     @State private var note = ""
     var body: some View {
         Form {
-            Section("Confirm physical unload") {
+            Section {
                 TextField("Unloading note / operator", text: $note)
-            } footer: { Text("The engine will reject an unload while any run still needs its dwell completed.") }
+            } header: { Text("Confirm physical unload") } footer: { Text("The engine will reject an unload while any run still needs its dwell completed.") }
         }
         .navigationTitle("Unload batch")
         .toolbar {
@@ -240,7 +243,7 @@ struct HistoryBoard: View {
                     }
                 }
             }
-            Section("Your data") {
+            Section {
                 Button("Prepare backup and CSV exports") { Task { await shop.export() } }
                     .disabled(shop.busy)
                 if let url = shop.backupURL { ShareLink("Share full backup JSON", item: url) }
@@ -248,7 +251,7 @@ struct HistoryBoard: View {
                 if let url = shop.batchCSVURL { ShareLink("Share oven-run CSV", item: url) }
                 Button("Restore validated backup") { showingImporter = true }
                     .disabled(shop.busy)
-            } footer: {
+            } header: { Text("Your data") } footer: {
                 Text("Keep a backup outside this device. Restore replaces the current ledger only after validation; purchases are verified separately by Apple.")
             }
         }
