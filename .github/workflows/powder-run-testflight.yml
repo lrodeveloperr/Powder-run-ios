@@ -34,7 +34,7 @@ jobs:
           fetch-depth: 0
       - name: Confirm source matches passed iOS suite
         run: |
-          git diff --quiet 4c02d5cda8519634eb6b24d95fd8b7a70a418d43 HEAD -- Shell ShellTests ShellUITests Packages PowderRunWidgets project.yml scripts || {
+          git diff --quiet 4c02d5cda8519634eb6b24d95fd8b7a70a418d43 HEAD -- Shell ShellTests ShellUITests Packages PowderRunWidgets project.yml scripts/check-commerce-branding.sh scripts/validate-localizations.py scripts/app-store-connect-jwt.rb || {
             echo 'App source changed since the passing iOS suite; run ios.yml before uploading.' >&2
             exit 1
           }
