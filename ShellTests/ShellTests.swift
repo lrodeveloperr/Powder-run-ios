@@ -1,5 +1,5 @@
 import XCTest
-@testable import Shell
+@testable import PowderRun
 
 @MainActor
 final class ShellTests: XCTestCase {
