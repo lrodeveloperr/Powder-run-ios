@@ -34,6 +34,14 @@ jobs:
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Confirm source matches passed iOS suite
+        run: |
+          git diff --quiet 4c02d5cda8519634eb6b24d95fd8b7a70a418d43 HEAD -- Shell ShellTests ShellUITests Packages PowderRunWidgets project.yml scripts || {
+            echo 'App source changed since the passing iOS suite; run ios.yml before uploading.' >&2
+            exit 1
+          }
       - name: Confirm trigger
         env:
           CONFIRMATION: ${{ inputs.confirmation }}
@@ -51,20 +59,8 @@ jobs:
       - name: Generate and verify simulator build
         run: |
           scripts/validate-shell.sh --release
-          swift test --package-path Packages/PowderCoatingRunEngine
           xcodegen generate
           xcodebuild -project Shell.xcodeproj -scheme "$SCHEME" -configuration Release -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO CURRENT_PROJECT_VERSION="$BUILD_NUMBER" build
-      - name: Run unit tests before upload
-        run: |
-          DEVICE_ID="$(xcrun simctl list devices available -j | ruby -rjson -e '
-            devices = JSON.parse(STDIN.read).fetch("devices").values.flatten
-            phone = devices.find { |d| d["isAvailable"] && d["name"].start_with?("iPhone") }
-            abort "No available iPhone simulator" unless phone
-            puts phone.fetch("udid")
-          ')"
-          xcrun simctl boot "$DEVICE_ID" 2>/dev/null || true
-          xcrun simctl bootstatus "$DEVICE_ID" -b
-          xcodebuild -project Shell.xcodeproj -scheme "$SCHEME" -configuration Release -destination "platform=iOS Simulator,id=$DEVICE_ID" CODE_SIGNING_ALLOWED=NO ENABLE_TESTABILITY=YES CURRENT_PROJECT_VERSION="$BUILD_NUMBER" -only-testing:ShellTests test
       - name: Prepare App Store Connect credentials
         env:
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
