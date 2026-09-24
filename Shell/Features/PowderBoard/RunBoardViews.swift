@@ -63,14 +63,14 @@ struct NewRunForm: View {
                 }
             }
             if presetID == nil {
-                Section("Manufacturer's current cure instruction") {
+                Section {
                     TextField("Powder name", text: $powderName)
                     TextField("Product code", text: $code)
                     TextField("TDS or procedure source", text: $source)
                     TextField("Target part metal °C", text: $target).keyboardType(.decimalPad)
                     TextField("Dwell minutes", text: $dwellMinutes).keyboardType(.numberPad)
                     TextField("Maximum metal °C (if specified)", text: $maximum).keyboardType(.decimalPad)
-                } footer: { Text("Use the manufacturer's instruction for this powder. Oven-air temperature is not a cure target.") }
+                } header: { Text("Manufacturer's current cure instruction") } footer: { Text("Use the manufacturer's instruction for this powder. Oven-air temperature is not a cure target.") }
             }
             Section {
                 Toggle("I checked the current source for this run", isOn: $confirmedSource)
@@ -91,9 +91,7 @@ struct NewRunForm: View {
         }
         .onChange(of: parentRunID) { _, id in
             if let id, let parent = eligibleParents.first(where: { $0.id == id }) {
-                let allocated = shop.ledger.links.filter { $0.parentRunID == id }
-                    .compactMap { link in shop.ledger.runs.first(where: { $0.id == link.runID })?.quantity }.reduce(0, +)
-                count = String(max(0, (parent.disposition?.rework ?? 0) - allocated))
+                count = String(unallocatedRework(for: parent))
             }
         }
         .toolbar {
@@ -103,6 +101,12 @@ struct NewRunForm: View {
                     .disabled((Int(count) ?? 0) <= 0 || lot.isEmpty || booth.isEmpty || operatorName.isEmpty || !confirmedSource || shop.busy)
             }
         }
+    }
+
+    private func unallocatedRework(for parent: CoatingRun) -> Int {
+        let childIDs = Set(shop.ledger.links.filter { $0.parentRunID == parent.id }.map(\.runID))
+        let allocated = shop.ledger.runs.filter { childIDs.contains($0.id) }.reduce(0) { $0 + $1.quantity }
+        return max(0, (parent.disposition?.rework ?? 0) - allocated)
     }
 
     private func save() {
@@ -255,12 +259,12 @@ private struct ReadingForm: View {
 
     var body: some View {
         Form {
-            Section("Actual part-metal measurement") {
+            Section {
                 TextField("Temperature", text: $reading).keyboardType(.decimalPad)
                 Picker("Unit", selection: $unit) { Text("°C").tag(TemperatureUnit.celsius); Text("°F").tag(TemperatureUnit.fahrenheit) }
                 TextField("Measurement point on part", text: $point)
                 TextField("Instrument or method", text: $method)
-            } footer: { Text("Record part metal. An oven-air reading cannot start or end qualifying dwell.") }
+            } header: { Text("Actual part-metal measurement") } footer: { Text("Record part metal. An oven-air reading cannot start or end qualifying dwell.") }
             if let run {
                 Section("Dwell") {
                     LabeledContent("Target", value: "\(run.recipe.targetMetalCelsius) °C · \(run.recipe.dwellSeconds / 60) min")
@@ -584,10 +588,10 @@ private struct ScrapForm: View {
     @State private var confirm = false
     var body: some View {
         Form {
-            Section("Scrap every part in this run") {
+            Section {
                 TextField("Why can these parts not continue?", text: $reason)
                 Toggle("I confirm the full run quantity is scrap", isOn: $confirm)
-            } footer: { Text("For a mixture of accepted and rejected parts, inspect and allocate the quantities instead.") }
+            } header: { Text("Scrap every part in this run") } footer: { Text("For a mixture of accepted and rejected parts, inspect and allocate the quantities instead.") }
         }
         .navigationTitle("Scrap run")
         .toolbar {
