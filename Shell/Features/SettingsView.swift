@@ -115,7 +115,7 @@ struct SettingsView: View {
     }
 
     private var shouldShowUpgrade: Bool {
-        guard !model.access.isEntitled else { return false }
+        guard !model.access.purchases.isEntitled else { return false }
         switch model.access.purchases.subscriptionCondition {
         case .checking, .billingRetry, .subscribed, .gracePeriod, .offlineCached:
             return false
