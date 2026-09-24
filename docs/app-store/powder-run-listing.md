@@ -1,6 +1,6 @@
 # Powder Run — App Store listing and review pack
 
-**Decision: DRAFT_READY for offline copy; release remains blocked. Prepared 23 September 2026.** This is the English launch copy for the native `Shell` target, bundle `com.goodusestudios.powderrun`, version `1.0` build `1`, iOS 18+, iPhone and iPad. Availability territories and seller identity must be confirmed in App Store Connect. No App Store record or final signed build was inspected. Do not upload this text or screenshots as a release claim until the checks at the end pass.
+**Decision: BLOCKED for submission; published legal pages are ready. Updated 24 September 2026.** This is the English launch copy for the native `Shell` target, bundle `com.goodusestudios.powderrun`, version `1.0` build `1`, iOS 18+, iPhone and iPad. Availability territories and seller identity must be confirmed in App Store Connect. No App Store record or final signed build was inspected. Copy is ready to enter, but build-dependent disclosures require verification before submission.
 
 ## Facts behind the copy
 
@@ -24,13 +24,13 @@
 | Promotional text | Leave blank at launch |
 | Keywords | `pretreatment,part metal,rework,inspection,job tracker,traceability,shop floor,quality control` |
 | Copyright | `2026 WorksBien Studios Inc.` — confirm actual rights holder and Apple seller |
-| Privacy Policy URL | Pending a live Powder Run policy page on the WorksBien site |
-| Support URL | Pending a live page with a verified contact address; an existing general contact page may be used if it actually covers Powder Run |
+| Privacy Policy URL | https://lrodeveloperr.github.io/privacy-policy/powder-run/privacy/ |
+| Support URL | https://lrodeveloperr.github.io/privacy-policy/powder-run/support/ |
 | Marketing URL | Omit initially; use a dedicated product page only when live |
-| Terms of Use | Provide a live URL in app and App Store subscription metadata; use Apple's standard EULA unless a custom EULA is deliberately configured |
+| Terms of Use | https://lrodeveloperr.github.io/privacy-policy/powder-run/terms/; use Apple's standard EULA unless a custom EULA is deliberately configured |
 | What's New | Omit for first release |
 
-**Description — plain text draft; append the verified live policy links before submission:**
+**Description — plain text draft with published legal links:**
 
 Powder Run gives powder-coating shops a clear record of each job from intake to handoff.
 
@@ -44,6 +44,9 @@ Track item groups and preparation checks, set up first-pass or rework runs, and 
 Five first-pass runs are free. Powder Run Pro is a monthly or yearly auto-renewable subscription that lets you create new jobs after the free limit. Jobs already entered, rework, history and exports remain accessible without an active subscription. The total price and renewal period for your region appear before purchase in the App Store flow.
 
 Powder Run stores shop records on your device. Sharing or backing up a file is your choice. It is a recordkeeping aid, not a temperature sensor or an automatic certification of cure. Follow the current powder manufacturer's instructions and your shop's safety procedures.
+
+Privacy Policy: https://lrodeveloperr.github.io/privacy-policy/powder-run/privacy/
+Terms of Use: https://lrodeveloperr.github.io/privacy-policy/powder-run/terms/
 
 **Subscription metadata (draft):** one group, one entitlement tier. Monthly display name `Powder Run Pro Monthly`; description `Create new jobs after five free first-pass runs; existing jobs and rework remain available.` Yearly display name `Powder Run Pro Yearly`; same description. IDs: `com.goodusestudios.powderrun.pro.monthly` and `com.goodusestudios.powderrun.pro.yearly`. Verify the exact duration, tier, prices, subscription group and localized metadata in App Store Connect before use. Do not create public promotional IAP artwork from the AppIcon or screenshots.
 
@@ -88,6 +91,6 @@ Reviewed 23 September 2026 against the [live App Review Guidelines](https://deve
 | 2.1, 2.3, 2.4 | Blocked | Build, screenshot authenticity and iPhone/iPad compatibility untested — iOS owner |
 | 3.1.1, 3.1.2 | Blocked | Both StoreKit products, continuing value, purchase/renewal disclosure and state transitions untested — commerce owner |
 | 4.1, 4.2 | Blocked | Original asset rights, fully working native functionality and template customization need archive review — iOS owner |
-| 5.1.1, 5.2 | Blocked | Publish truthful policy, compare privacy answers with final binary/SDKs and confirm content rights — privacy owner |
+| 5.1.1, 5.2 | Blocked | Compare published policy and privacy answers with final binary/SDKs and confirm content rights — privacy owner |
 
-Other guideline subsections must be re-reviewed against the final build and the selected markets; this matrix is the draft's applicable core, not a claim that all sections passed. Release also needs a verified seller/copyright owner, live support/privacy/terms URLs, subscription products and signing, three real screenshots for each device family, testable reviewer contact, a Mac build and test pass, archive privacy checks, and a regional availability decision. The code still includes `support@example.com` and `example.com` legal URLs; they must be replaced before release. No live App Store action has been performed.
+Other guideline subsections must be re-reviewed against the final build and the selected markets; this matrix is the draft's applicable core, not a claim that all sections passed. Release also needs a verified seller/copyright owner, subscription products and signing, three real screenshots for each device family, testable reviewer contact, a Mac build and test pass, archive privacy checks, and a regional availability decision. The production source points to live privacy and terms pages; the support page and contact are published. App Store Connect access and signed archive checks remain unverified.

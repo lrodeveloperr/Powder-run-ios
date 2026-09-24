@@ -1,6 +1,9 @@
+**Effective date:** 24 September 2026
+**Operator:** WorksBien Studios Inc., Ontario, Canada
+**Contact:** [info@worksbienstudios.com](mailto:info@worksbienstudios.com)
+
 # Powder Run — Privacy Policy
 
-**Draft dated 23 September 2026. Do not publish until the operator identity, contact address and final iOS archive are verified.**
 
 Powder Run is operated by WorksBien Studios Inc. ("we", "us"). The app is designed to keep shop production records on your device. This policy covers the iOS app, not the separate WorksBien website or any file-sharing destination you choose.
 
@@ -14,7 +17,7 @@ If Live Activities are enabled on your device, an active oven load can appear on
 
 Apple handles subscription offers, payment and renewal through the App Store. The app asks StoreKit for products and checks verified subscription status to determine access. It keeps local app settings and an on-device Keychain entitlement snapshot that expires when its verified validity ends. We do not receive your card number or Apple Account password through the app. Apple's handling of purchase information is governed by Apple's policies.
 
-The current production target contains no developer-operated analytics, advertising, tracking, user account, automatic cloud sync, or remote service for shop records. We do not use the app to collect shop records or send them to us by default. We have not yet verified the final signed archive and integrated third-party code for App Store privacy answers; those answers must be confirmed before release.
+The current production target contains no developer-operated analytics, advertising, tracking, user account, automatic cloud sync, or remote service for shop records. We do not use the app to collect shop records or send them to us by default.
 
 ## Export, device backup and retention
 
@@ -24,8 +27,10 @@ Records stay on your device until you change or replace them, remove the app and
 
 ## Support messages and your choices
 
-If you contact us for support, you decide what to share. Your message and any attached files will be handled through the contact channel you choose; do not send customer records unless needed to investigate an issue. Support correspondence is separate from the app's local ledger and is handled under the published website/support privacy notice. You may stop using the app, delete its local data through iOS, manage backups at their destinations, and manage or cancel subscriptions in your Apple Account. There is no in-app account to delete.
+If you contact us for support, you decide what to share. Your message and any attached files will be handled through the contact channel you choose; do not send customer records unless needed to investigate an issue. Support correspondence is separate from the app's local ledger. We use it to respond to your request and keep it as long as reasonably needed for support and applicable legal obligations; you may request deletion of support messages by contacting us, subject to applicable requirements. You may stop using the app, delete its local data through iOS, manage backups at their destinations, and manage or cancel subscriptions in your Apple Account. There is no in-app account to delete.
 
 ## Changes and contact
 
-We will update the policy and its effective date if app behavior or our practices materially change. Questions or requests concerning data you sent us voluntarily: **[CONFIRM SUPPORT EMAIL BEFORE PUBLICATION]**. Planned public URL: **[CONFIRM WORKSBIEN PRIVACY URL BEFORE PUBLICATION]**.
+We will update the policy and its effective date if app behavior or our practices materially change. Questions or requests concerning data you sent us voluntarily: [info@worksbienstudios.com](mailto:info@worksbienstudios.com).
+
+[Powder Run legal and support overview](/privacy-policy/powder-run/)

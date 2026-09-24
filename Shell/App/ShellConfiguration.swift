@@ -3,12 +3,12 @@ import SwiftUI
 enum ShellConfiguration {
     static let appName = "Powder Run"
     static let tint = Color(red: 0.08, green: 0.49, blue: 0.51)
-    static let supportEmail = "support@example.com"
+    static let supportEmail = "info@worksbienstudios.com"
 
     static let legal = LegalConfiguration(
         version: "1",
-        privacyURL: URL(string: "https://example.com/#replace-with-privacy-policy")!,
-        termsURL: URL(string: "https://example.com/#replace-with-terms-of-use")!
+        privacyURL: URL(string: "https://lrodeveloperr.github.io/privacy-policy/powder-run/privacy/")!,
+        termsURL: URL(string: "https://lrodeveloperr.github.io/privacy-policy/powder-run/terms/")!
     )
 
     /// Set to nil when the product does not have a genuine onboarding need.
@@ -18,7 +18,7 @@ enum ShellConfiguration {
     static let monetization = MonetizationConfiguration(
         mode: .usageCapWithSubscription,
         freeSuccessfulActions: 5,
-        lifetimeProductID: "shell.pro.lifetime",
+        lifetimeProductID: "com.goodusestudios.powderrun.pro.lifetime.unused",
         subscriptionProductID: "com.goodusestudios.powderrun.pro.monthly",
         yearlySubscriptionProductID: "com.goodusestudios.powderrun.pro.yearly",
         // The ledger gates only new jobs after five first-pass runs. Existing

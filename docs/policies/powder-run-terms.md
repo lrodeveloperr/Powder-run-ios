@@ -1,6 +1,9 @@
+**Effective date:** 24 September 2026
+**Operator:** WorksBien Studios Inc., Ontario, Canada
+**Contact:** [info@worksbienstudios.com](mailto:info@worksbienstudios.com)
+
 # Powder Run — Terms of Use
 
-**Draft dated 23 September 2026. Do not publish until the operator identity, support address, App Store products and final behavior are verified.**
 
 These terms are between you and WorksBien Studios Inc. ("we", "us") for the Powder Run iOS app. Downloading and using the app also remains subject to applicable App Store terms, including Apple's Standard End User License Agreement unless different terms are supplied in App Store Connect. These terms do not remove rights that applicable law does not allow us to exclude.
 
@@ -22,6 +25,8 @@ The current app stores records locally. There is no developer-hosted account or 
 
 ## Changes and support
 
-We may update the app and these terms, with an updated date on the published copy. If a change materially affects a purchased feature, applicable Apple rules and your statutory rights still apply. For app issues or questions: **[CONFIRM SUPPORT EMAIL BEFORE PUBLICATION]**. Planned public URL: **[CONFIRM WORKSBIEN TERMS URL BEFORE PUBLICATION]**.
+We may update the app and these terms, with an updated date on the published copy. If a change materially affects a purchased feature, applicable Apple rules and your statutory rights still apply. For app issues or questions: [info@worksbienstudios.com](mailto:info@worksbienstudios.com).
 
 Copyright and other rights in the app remain with their respective owners. Third-party notices are included with the source and, where applicable, the distributed app. No powder manufacturer's name, logo or recipe is licensed or endorsed merely because a user enters its identifiers.
+
+[Powder Run legal and support overview](/privacy-policy/powder-run/)

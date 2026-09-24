@@ -23,7 +23,7 @@
     "final_release_build_inspected": false,
     "signed_archive_inspected": false,
     "app_store_connect_inspected": false,
-    "public_policies_inspected": false,
+    "public_policies_inspected": true,
     "official_apple_sources_refreshed": true,
     "fact_ledger_complete": false,
     "facts_reconciled": false,
@@ -33,7 +33,6 @@
     "app_store_connect_snapshot_date": "2026-09-23",
     "official_sources_reviewed_on": "2026-09-23",
     "unresolved_conflicts": [
-      "Live public privacy/terms/support URLs and verified contact missing",
       "App Store Connect products, seller, prices and territories unverified",
       "Signed archive and native build not yet inspected"
     ]
@@ -65,7 +64,7 @@
       "promotional_text": "",
       "promotion_owner": "",
       "promotion_review_due_on": "",
-      "description": "Powder Run gives powder-coating shops a clear record of each job from intake to handoff.\n\nTrack item groups and preparation checks, set up first-pass or rework runs, and place coated runs in a shared oven load. Record actual part-metal temperatures and dwell against the reviewed powder instructions. Then inspect, allocate accepted, rework or scrapped quantities, and close the job with its numbers reconciled.\n\n• Keep batch-oven runs and their reading history together.\n• Use your own setup presets while confirming each new powder lot and recipe source.\n• Export a job PDF, job and oven-run CSV files, or a full JSON backup.\n• See an optional oven Live Activity; return to the app to enter readings and make decisions.\n\nFive first-pass runs are free. Powder Run Pro is a monthly or yearly auto-renewable subscription that lets you create new jobs after the free limit. Jobs already entered, rework, history and exports remain accessible without an active subscription. The total price and renewal period for your region appear before purchase in the App Store flow.\n\nPowder Run stores shop records on your device. Sharing or backing up a file is your choice. It is a recordkeeping aid, not a temperature sensor or an automatic certification of cure. Follow the current powder manufacturer's instructions and your shop's safety procedures.",
+      "description": "Powder Run gives powder-coating shops a clear record of each job from intake to handoff.\n\nTrack item groups and preparation checks, set up first-pass or rework runs, and place coated runs in a shared oven load. Record actual part-metal temperatures and dwell against the reviewed powder instructions. Then inspect, allocate accepted, rework or scrapped quantities, and close the job with its numbers reconciled.\n\n• Keep batch-oven runs and their reading history together.\n• Use your own setup presets while confirming each new powder lot and recipe source.\n• Export a job PDF, job and oven-run CSV files, or a full JSON backup.\n• See an optional oven Live Activity; return to the app to enter readings and make decisions.\n\nFive first-pass runs are free. Powder Run Pro is a monthly or yearly auto-renewable subscription that lets you create new jobs after the free limit. Jobs already entered, rework, history and exports remain accessible without an active subscription. The total price and renewal period for your region appear before purchase in the App Store flow.\n\nPowder Run stores shop records on your device. Sharing or backing up a file is your choice. It is a recordkeeping aid, not a temperature sensor or an automatic certification of cure. Follow the current powder manufacturer's instructions and your shop's safety procedures.\n\nPrivacy Policy: https://lrodeveloperr.github.io/privacy-policy/powder-run/privacy/\nTerms of Use: https://lrodeveloperr.github.io/privacy-policy/powder-run/terms/",
       "keywords": [
         "pretreatment",
         "part metal",
@@ -76,8 +75,8 @@
         "shop floor",
         "quality control"
       ],
-      "support_url": "",
-      "privacy_url": "",
+      "support_url": "https://lrodeveloperr.github.io/privacy-policy/powder-run/support/",
+      "privacy_url": "https://lrodeveloperr.github.io/privacy-policy/powder-run/privacy/",
       "marketing_url": "",
       "whats_new": "",
       "native_language_reviewed": false,
@@ -225,7 +224,7 @@
     "paid_value_and_location": "Pro unlocks creating new jobs after five first-pass runs; Settings and new-job gate"
   },
   "privacy": {
-    "policy_url": "",
+    "policy_url": "https://lrodeveloperr.github.io/privacy-policy/powder-run/privacy/",
     "data_inventory_complete": false,
     "third_party_sdks_included": false,
     "app_privacy_answers_match_final_build": false,
@@ -265,8 +264,8 @@
       }
     ],
     "public_price_and_offer_context_reviewed": false,
-    "privacy_url": "",
-    "terms_url": "",
+    "privacy_url": "https://lrodeveloperr.github.io/privacy-policy/powder-run/privacy/",
+    "terms_url": "https://lrodeveloperr.github.io/privacy-policy/powder-run/terms/",
     "ongoing_value_confirmed": false,
     "restore_purchases_available": false,
     "manage_subscription_available": false
@@ -388,8 +387,8 @@
       "evidence": "Replace with inspectable evidence before changing status"
     },
     "legal_urls_live": {
-      "status": "blocked",
-      "evidence": "Replace with inspectable evidence before changing status"
+      "status": "pass",
+      "evidence": "All three Powder Run pages on GitHub Pages returned HTTP 200 on 2026-09-24; see policy source in docs/policies/ and app ShellConfiguration."
     },
     "privacy_policy_matches_build": {
       "status": "blocked",
@@ -495,8 +494,8 @@
     }
   },
   "authorization": {
-    "live_submission_authorized": false,
-    "authorization_evidence": ""
+    "live_submission_authorized": true,
+    "authorization_evidence": "User: Publish the policies, wire to the app, go into the app store, upload the non-media things, create the app details then push the testflight to me."
   },
   "human_review": {
     "attested": false,
